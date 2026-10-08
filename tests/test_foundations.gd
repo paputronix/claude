@@ -42,9 +42,7 @@ func run_test() -> void:
 	var main := await load_main()
 	var player: Node3D = main.get_node("Player")
 	var npc: Node3D = main.get_node("Lucia")
-	player.global_position = npc.global_position + Vector3(0, 0, 1.2)
-	await wait_frames(5)
-	await press_action("interact")
+	await talk_to(player, npc)
 	var options: Node = main.get_node("DialogueUI/%OptionsBox")
 	options.get_child(2).pressed.emit()  # respuesta borde, termina
 	options.get_child(0).pressed.emit()  # Adiós

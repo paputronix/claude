@@ -30,7 +30,7 @@ func run_test() -> void:
 
 	# Cerca sin pulsar: prompt visible, diálogo cerrado.
 	player.global_position = npc.global_position + Vector3(0, 0, 1.2)
-	await wait_frames(5)
+	await wait_until(func(): return prompt.is_showing())
 	check(not ui.is_active(), "acercarse sin pulsar E no abre la conversación")
 	check(prompt.is_showing(), "prompt visible cerca del NPC")
 	check(prompt.get_text() == "[E] Hablar con Lucía", "texto del prompt (%s)" % prompt.get_text())
