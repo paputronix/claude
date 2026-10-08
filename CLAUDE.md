@@ -18,9 +18,10 @@ Proyecto personal. Prioridad absoluta: **pequeño, que funcione, y que se termin
 ## Arquitectura actual
 - `scenes/main.tscn` + `scripts/main.gd`: cablea señales NPC → DialogueUI → Player. Las piezas no se conocen entre sí.
 - `Player` (CharacterBody3D, capa física 2): tercera persona, `CameraPivot` (yaw) + `SpringArm3D` (pitch).
-- `Npc` (StaticBody3D, grupo `npcs`): guarda su `affinity` (-100..100); `TalkArea` (mask 2) emite `conversation_requested` al entrar el jugador, se rearma al salir.
+- `Npc` (StaticBody3D, grupos `npcs` + `interactable`): afinidad en `RelationshipState` por `npc_id`; `interact()` emite `conversation_requested`.
+- `Interactor` (lo crea `player.gd`): detecta `interactable` cercanos y muestra "[E] ...". Contrato en `scripts/interaction/interactor.gd`.
 - `DialogueUI` (CanvasLayer): lee el JSON del NPC (`data/dialogues/*.json`) y aplica deltas de afinidad.
-- Formato diálogo: `{ "start": id, "nodes": { id: { "text", "options": [{ "text", "affinity", "reaction", "next": id|null }] } } }`.
+- Formato diálogo (detalle en la cabecera de `dialogue_ui.gd`): `{ "start": id | [condiciones por afinidad], "nodes": { id: { "text", "options": [{ "text", "affinity", "reaction", "next": id|null }] } } }`.
 
 ## Autoloads (contratos — Ola 0)
 Registrados en `project.godot`, en `scripts/autoload/` (+ `scenes/ui/` para los que son escena). La API pública de cada uno es el contrato entre ramas: **ampliar sí, romper firmas no**.
