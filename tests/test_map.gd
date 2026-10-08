@@ -1,7 +1,9 @@
 extends "res://tests/test_base.gd"
 ## Mapa: locations registradas, navegación entre todas, suelo firme, NPC en el bar.
 
-const IDS := ["bar", "calle", "casa_lucia", "parque"]
+const IDS := ["bar", "calle", "casa_lucia", "parque", "terraza", "kiosko", "portal_a", "portal_b", "portal_c", "casa_carla"]
+## Sitios que deben estar sobre suelo caminable (la casa de Lucía y el bar tienen su propia comprobación).
+const WALKABLE := ["terraza", "kiosko", "portal_a", "portal_b", "portal_c", "casa_carla", "calle", "parque"]
 
 
 func run_test() -> void:
@@ -27,6 +29,33 @@ func run_test() -> void:
 			var straight := a.distance_to(b)
 			check(length >= straight - 0.5 and length < straight * 1.6 + 10.0,
 				"longitud razonable %s -> %s (%.1f m, recta %.1f m)" % [IDS[i], IDS[j], length, straight])
+
+	check(IDS.size() == 10, "hay 10 locations esperadas")
+	for id: String in WALKABLE:
+		var pos: Vector3 = locations.get_position(id)
+		var near := NavigationServer3D.map_get_closest_point(nav_map, pos)
+		# El navmesh queda ~0,5 m por encima del suelo (cell_height/agent_max_climb): se compara en XZ.
+		var flat := Vector2(near.x - pos.x, near.z - pos.z).length()
+		check(flat < 0.5, "%s sobre suelo caminable (a %.2f m del navmesh)" % [id, flat])
+
+	# La terraza no bloquea el paso del bar a la calle: camino casi recto y sin tocar mesas.
+	var bar_pos: Vector3 = locations.get_position("bar")
+	var calle_pos: Vector3 = locations.get_position("calle")
+	var door := Vector3(0, 0, 11)
+	var out_path := NavigationServer3D.map_get_path(nav_map, bar_pos, calle_pos, true)
+	var out_len := 0.0
+	for k in range(1, out_path.size()):
+		out_len += out_path[k - 1].distance_to(out_path[k])
+	check(out_len < bar_pos.distance_to(calle_pos) * 1.1, "bar -> calle casi recto con la terraza (%.1f m)" % out_len)
+	var door_near := NavigationServer3D.map_get_closest_point(nav_map, door)
+	check(Vector2(door_near.x - door.x, door_near.z - door.z).length() < 0.3, "el paso frente a la puerta del bar está libre")
+
+	# Encargos: hay uno corto y otro largo desde el kiosko.
+	var kiosk: Vector3 = locations.get_position("kiosko")
+	var dists: Array[float] = []
+	for id: String in ["portal_a", "portal_b", "portal_c"]:
+		dists.append(kiosk.distance_to(locations.get_position(id)))
+	check(dists.min() < 12.0 and dists.max() > 30.0, "portales a distancias variadas del kiosko %s" % [dists])
 
 	# Bar -> parque andando a 5 m/s: entre 15 y 25 s.
 	var walk := NavigationServer3D.map_get_path(nav_map, locations.get_position("bar"), locations.get_position("parque"), true)

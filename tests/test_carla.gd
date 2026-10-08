@@ -1,6 +1,6 @@
 extends "res://tests/test_base.gd"
 ## Carla, segundo NPC: coexiste con Lucía, skin propia, diálogo y afinidad
-## independientes, horario terraza → parque y robustez sin locations.
+## independientes, horario terraza → parque y robustez si faltan locations.
 
 const CARLA_SKIN := "res://assets/characters/carla_skin.png"
 
@@ -53,12 +53,20 @@ func run_test() -> void:
 	check(brain.schedule.location_at(20 * 60 + 44) == "terraza" and brain.schedule.location_at(20 * 60 + 45) == "parque", "20:45 parque")
 	check(brain.schedule.location_at(21 * 60 + 20) == "casa_carla", "21:20 casa_carla")
 	check(brain.schedule.date_lead_minutes == 40, "date_lead_minutes 40")
+	# El mapa ya tiene terraza y casa_carla: se desregistran para simular que faltan.
+	var real_markers := {}
+	for id in ["terraza", "casa_carla"]:
+		if locations.has(id):
+			real_markers[id] = locations._locations[id]
+			locations.unregister(id)
 	var pos0: Vector3 = carla.global_position
 	for t in [[18, 0], [21, 20]]:
 		clock.set_time(t[0], t[1])
 		await wait_frames(30)
 		check(carla.global_position.distance_to(pos0) < 0.1, "%02d:%02d con el destino sin registrar Carla se queda quieta" % t)
-	check(not locations.has("terraza") and not locations.has("casa_carla"), "terraza y casa_carla aún no existen")
+	check(not locations.has("terraza") and not locations.has("casa_carla"), "terraza y casa_carla desregistradas")
+	for id in real_markers:
+		locations.register(id, real_markers[id])
 	check(carla.is_on_floor(), "Carla sobre el suelo en (5,0,15)")
 
 	# --- Diálogo propio y afinidad independiente ---
