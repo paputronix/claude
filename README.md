@@ -2,7 +2,7 @@
 
 Dating sim 3D de hobby en Godot 4.3+, inspirado en Schedule I: el tiempo pasa, el móvil avisa y quedas con alguien a una hora en un sitio concreto.
 
-**Estado:** Hito 2 ("Un día en la vida") completo.
+**Estado:** Hito 3 ("El tiempo es el recurso") completo.
 
 ## Ejecutar
 1. Abre Godot 4.3 o superior → *Import* → selecciona `project.godot`.
@@ -20,7 +20,9 @@ Dating sim 3D de hobby en Godot 4.3+, inspirado en Schedule I: el tiempo pasa, e
 | Velocidad del tiempo (debug) | F1 x1 · F2 x10 · F3 x60 |
 
 ## Cómo se juega (hoy)
-Empiezas a las 18:00 en el bar. Habla con Lucía: sus respuestas cambian la afinidad (anillo a sus pies, de rojo a verde) y lo recuerda la próxima vez. Con suficiente afinidad puedes proponerle quedar a las 21:00 en el parque. El móvil te avisa antes; Lucía sale del bar por su cuenta y camina hasta allí. Si llegáis los dos a tiempo, la cita sale bien; si no apareces, le has dado plantón.
+Empiezas a las 18:00 en el bar con 20 €. El móvil te ofrece encargos de reparto: recoge el paquete en el kiosko con [E] y entrégalo en el portal indicado antes de la hora límite (con retraso cobras la mitad). Habla con Lucía, en el bar, y con Carla, en la terraza: cada una recuerda cómo la tratas (anillo a sus pies). Con suficiente afinidad puedes quedar con las dos la misma noche: Lucía a las 21:00 en el parque, Carla a las 22:00 en el bar.
+
+Cada una va sola al sitio. Al coincidir empieza la cita: un diálogo donde puedes invitar (si te llega el dinero) y luego unos 40 minutos juntos. Quédate y sale bien; vete antes y queda a medias. Ojo: si la otra te ve en plena cita, **pillada**, y te quedas sin ninguna. La puntualidad, dónde te pones y cuándo te vas deciden la noche.
 
 ## Estructura
 ```
@@ -29,6 +31,7 @@ scripts/         lógica; autoload/ (sistemas globales), npc/ (horario), interac
 data/dialogues/  conversaciones en JSON (edítalas sin tocar código)
 data/schedules/  horarios de los NPCs en JSON
 assets/          personajes (Kenney, CC0)
+data/jobs.json   encargos de reparto
 tests/           tests headless: tests/run.sh
 ```
 
