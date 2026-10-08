@@ -1,0 +1,12 @@
+{
+  "_doc": "Modelo 3D de cada personaje (VRoid, ver assets/characters/anime/CREDITS.md). Lo lee el código de personajes; main.tscn no cambia.",
+  "player": "res://assets/characters/anime/player.glb",
+  "lucia": "res://assets/characters/anime/lucia.glb",
+  "carla": "res://assets/characters/anime/carla.glb",
+  "pedestrians": [
+    "res://assets/characters/anime/ped_a.glb",
+    "res://assets/characters/anime/ped_b.glb",
+    "res://assets/characters/anime/ped_c.glb"
+  ],
+  "animations": "res://assets/characters/anime/anims.glb"
+}

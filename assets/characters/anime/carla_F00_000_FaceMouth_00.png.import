@@ -1,0 +1,37 @@
+[remap]
+
+importer="texture"
+type="CompressedTexture2D"
+uid="uid://b70wji4a4o4d2"
+path="res://.godot/imported/carla_F00_000_FaceMouth_00.png-fcd2e0a7a8e3aabd7bf1815e9bb1180e.ctex"
+metadata={
+"vram_texture": false
+}
+generator_parameters={
+"md5": "7c80072377bcd35ac445a8db2a80d6de"
+}
+
+[deps]
+
+source_file="res://assets/characters/anime/carla_F00_000_FaceMouth_00.png"
+dest_files=["res://.godot/imported/carla_F00_000_FaceMouth_00.png-fcd2e0a7a8e3aabd7bf1815e9bb1180e.ctex"]
+
+[params]
+
+compress/mode=0
+compress/high_quality=false
+compress/lossy_quality=0.7
+compress/hdr_compression=1
+compress/normal_map=0
+compress/channel_pack=0
+mipmaps/generate=true
+mipmaps/limit=-1
+roughness/mode=0
+roughness/src_normal=""
+process/fix_alpha_border=true
+process/premult_alpha=false
+process/normal_map_invert_y=false
+process/hdr_as_srgb=false
+process/hdr_clamp_exposure=false
+process/size_limit=0
+detect_3d/compress_to=1

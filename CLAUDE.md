@@ -20,7 +20,7 @@ Proyecto personal. Prioridad absoluta: **pequeño, que funcione, y que se termin
 - `scenes/main.tscn` + `scripts/main.gd`: cablea señales NPC → DialogueUI → Player. Las piezas no se conocen entre sí.
 - `Player` (CharacterBody3D, capa física 2): tercera persona, `CameraPivot` (yaw) + `SpringArm3D` (pitch).
 - `Npc` (CharacterBody3D + NavigationAgent3D, grupos `npcs` + `interactable`): afinidad en `RelationshipState` por `npc_id`; `interact()` emite `conversation_requested`. Su hijo `Brain` (`scripts/npc/npc_brain.gd`) decide destino: horario JSON (`data/schedules/*.json`) o cita pendiente desde `inicio - date_lead_minutes`; teletransporte a la cita solo si no llega y el jugador no lo ve.
-- Visual: personajes Kenney (CC0) en `assets/characters/`; `character_animator.gd` cambia idle/run por velocidad. `Visual/Body` del NPC es el anillo de afinidad.
+- Visual: personajes Kenney (CC0) en `assets/characters/` (en sustitución por modelos anime VRoid en `assets/characters/anime/`, ver Hito 5); `character_animator.gd` cambia idle/run por velocidad. `Visual/Body` del NPC es el anillo de afinidad.
 - `Interactor` (lo crea `player.gd`): detecta `interactable` cercanos y muestra "[E] ...". Contrato en `scripts/interaction/interactor.gd`.
 - `DialogueUI` (CanvasLayer): lee el JSON del NPC (`data/dialogues/*.json`) y aplica deltas de afinidad.
 - Formato diálogo (detalle en la cabecera de `dialogue_ui.gd`): `{ "start": id | [condiciones por afinidad], "nodes": { id: { "text", "options": [{ "text", "affinity", "reaction", "next": id|null }] } } }`.
@@ -55,12 +55,20 @@ Registrados en `project.godot`, en `scripts/autoload/` (+ `scenes/ui/` para los 
 Rama de integración: `claude/ligar-simulator-prototype-jq95e7`. Cada feature en `claude/ligar-<feature>`, PR contra integración.
 Reglas para cada rama: no tocar `project.godot`; tocar solo tus ficheros (abajo) o usar los contratos de autoload; ampliar contratos solo de forma aditiva y avisándolo; añadir `tests/test_<feature>.gd`.
 
-La tabla de ownership se define en cada plan de hito (Ola 0) y se añade aquí mientras dura.
+Ownership Hito 5 (estilo anime) · Ola 1:
+| Rama | Ficheros dueños |
+|---|---|
+| anime-shader | `shaders/*`, `scripts/visual/toon_materials.gd`, `scripts/world/day_night.gd`, `scenes/main.tscn` |
+| anime-characters | `scenes/player.tscn`, `scenes/npc.tscn`, `scenes/pedestrian.tscn`, `scripts/visual/character_animator.gd`, `scripts/pedestrians/*`, `assets/characters/**` (incl. `.import`/BoneMap), `data/characters.json`, tests de arte/peatones/Carla |
+| anime-world | `scenes/world/world.tscn`, `scripts/world/world.gd` (salvo el hook de peatones), `scripts/world/location_marker.gd`, `tests/test_map.gd` |
+Contrato: `ToonMaterials.apply(root, role)` (role `character`/`world`) convierte materiales al estilo toon; las ramas lo llaman, anime-shader lo implementa.
 
 ## Hitos
 1. ✅ Prototipo mínimo: sala, player WASD+ratón, NPC, conversación por proximidad con 3 opciones que mueven la afinidad.
 2. ✅ "Un día en la vida": reloj, móvil, afinidad persistente, [E] Hablar, mapa con zonas, NPC con horario, quedada a hora y lugar (`tests/test_hito2.gd` cubre el bucle completo).
 3. ✅ "El tiempo es el recurso": repartidor → dinero → invitar en citas; segundo NPC (Carla); dos citas el mismo día con pillada física (`tests/test_hito3_*.gd`: día, noche y pillada).
+4. ✅ Ambiente: ciclo de día y noche, farolas, sonido ambiente y transeúntes.
+5. 🚧 Estilo anime: personajes VRoid, cel shading con contorno, ciudad moderna con paleta anime.
 
 ## Visión a futuro (NO implementar aún)
 - Estatus/ropa, regalos, ramas de relación a largo plazo, fin de día y guardado.
