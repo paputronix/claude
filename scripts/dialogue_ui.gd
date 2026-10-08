@@ -13,6 +13,18 @@ extends CanvasLayer
 ##              {"max_affinity": -20, "node": "enfadada"}, {"node": "saludo"} ]
 ## Las opciones admiten "min_affinity"/"max_affinity": si no se cumplen, se ocultan.
 ## Una opción puede llevar "action": {...}, que se emite en EventBus.dialogue_action.
+##
+## Contexto: `start(npc, context)` (p. ej. "date"). Las entradas de `start` pueden llevar
+## "context": "date". Con contexto no vacío gana la primera entrada con ese contexto que
+## cumpla la afinidad; si ninguna, se usan las entradas SIN "context". Con contexto vacío
+## las entradas con "context" se ignoran.
+##   "start": [ {"context": "date", "node": "cita"}, {"node": "saludo"} ]
+##
+## Coste: una opción con "cost": 8 (euros) muestra "Texto (8 €)", se deshabilita si
+## Wallet no tiene saldo (las teclas 1-9 la ignoran) y al elegirla cobra
+## `Wallet.spend(cost, "Invitar a <npc_name>")` antes de aplicar afinidad/acción/reacción.
+## Si el cobro falla no se aplica nada.
+##   { "text": "Invitarla a un café", "cost": 8, "affinity": 10, "next": "id" | null }
 
 signal conversation_started(npc: Npc)
 signal conversation_ended(npc: Npc)
@@ -62,8 +74,12 @@ func start(npc: Npc, context := "") -> void:
 func _resolve_start(start) -> Variant:
 	if not start is Array:
 		return start
+	if _context != "":
+		for entry in start:
+			if entry is Dictionary and entry.get("context", "") == _context and _meets_affinity(entry):
+				return entry.get("node")
 	for entry in start:
-		if entry is Dictionary and _meets_affinity(entry):
+		if entry is Dictionary and not entry.has("context") and _meets_affinity(entry):
 			return entry.get("node")
 	return null
 
@@ -87,10 +103,18 @@ func _show_node(node_id) -> void:
 	if visible_options.is_empty():
 		_add_option("Adiós", _end)
 	for option in visible_options:
-		_add_option(option.get("text", "..."), _choose.bind(option))
+		var cost := int(option.get("cost", 0))
+		var label: String = option.get("text", "...")
+		if cost > 0:
+			label += " (%d €)" % cost
+		_add_option(label, _choose.bind(option), cost > 0 and not Wallet.can_afford(cost))
 
 
 func _choose(option: Dictionary) -> void:
+	var cost := int(option.get("cost", 0))
+	if cost > 0 and not Wallet.spend(cost, "Invitar a %s" % _npc.npc_name):
+		return
+
 	if option.get("action") is Dictionary:
 		EventBus.dialogue_action.emit(_npc.npc_id, option.action)
 
@@ -120,11 +144,12 @@ func _end() -> void:
 	EventBus.conversation_ended.emit(npc.npc_id)
 
 
-func _add_option(text: String, callback: Callable) -> void:
+func _add_option(text: String, callback: Callable, disabled := false) -> void:
 	var index := _options_box.get_child_count() + 1
 	var button := Button.new()
 	button.text = "%d. %s" % [index, text]
 	button.alignment = HORIZONTAL_ALIGNMENT_LEFT
+	button.disabled = disabled
 	button.pressed.connect(callback)
 	_options_box.add_child(button)
 	if index == 1:
@@ -133,8 +158,11 @@ func _add_option(text: String, callback: Callable) -> void:
 
 func _focus_first_option() -> void:
 	# Diferido: si se eligió otra opción en el mismo frame, el botón original ya no existe.
-	if _options_box.get_child_count() > 0:
-		(_options_box.get_child(0) as Button).grab_focus()
+	for child in _options_box.get_children():
+		var button := child as Button
+		if not button.disabled:
+			button.grab_focus()
+			return
 
 
 func _clear_options() -> void:
@@ -167,4 +195,6 @@ func _unhandled_input(event: InputEvent) -> void:
 	var index: int = event.keycode - KEY_1
 	if index >= 0 and index < _options_box.get_child_count():
 		get_viewport().set_input_as_handled()
-		(_options_box.get_child(index) as Button).pressed.emit()
+		var button := _options_box.get_child(index) as Button
+		if not button.disabled:
+			button.pressed.emit()
