@@ -19,6 +19,7 @@ signal conversation_ended(npc: Npc)
 
 var _npc: Npc
 var _nodes: Dictionary = {}
+var _context := ""
 
 @onready var _panel: Control = $Panel
 @onready var _name_label: Label = %NameLabel
@@ -35,7 +36,10 @@ func is_active() -> bool:
 	return _npc != null
 
 
-func start(npc: Npc) -> void:
+## `context` permite variantes del mismo diálogo (p. ej. "date" durante una cita).
+## Contrato Hito 3: condición `"context": "date"` en `start` y opciones con `"cost": 8`
+## (implementación en `claude/ligar-dialogue-v2`).
+func start(npc: Npc, context := "") -> void:
 	if is_active():
 		return
 	var data := npc.load_dialogue()
@@ -43,6 +47,7 @@ func start(npc: Npc) -> void:
 		return
 
 	_npc = npc
+	_context = context
 	_nodes = data.get("nodes", {})
 	_npc.affinity_changed.connect(_on_affinity_changed)
 	_name_label.text = npc.npc_name

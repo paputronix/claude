@@ -81,6 +81,17 @@ func talk_to(player: Node3D, target: Node3D, offset := Vector3(0, 0, 1.2)) -> vo
 	await press_action("interact")
 
 
+## Registra en `Locations` un marcador temporal (para tests que necesitan un sitio
+## que el mapa aún no tiene). Se desregistra al salir del árbol.
+func add_temp_location(id: String, position: Vector3, radius := 3.0) -> Node3D:
+	var marker: Node3D = load("res://scripts/world/location_marker.gd").new()
+	marker.id = id
+	marker.radius = radius
+	marker.position = position
+	root.add_child(marker)  # LocationMarker se registra solo en _ready
+	return marker
+
+
 func load_main() -> Node:
 	var main: Node = load("res://scenes/main.tscn").instantiate()
 	root.add_child(main)
