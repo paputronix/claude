@@ -4,34 +4,34 @@
 [ext_resource type="Script" path="res://scripts/world/location_marker.gd" id="2_marker"]
 
 [sub_resource type="StandardMaterial3D" id="mat_floor"]
-albedo_color = Color(0.45, 0.45, 0.5, 1)
+albedo_color = Color(0.3, 0.24, 0.2, 1)
 
 [sub_resource type="StandardMaterial3D" id="mat_wall"]
-albedo_color = Color(0.85, 0.8, 0.72, 1)
+albedo_color = Color(0.6, 0.56, 0.5, 1)
 
 [sub_resource type="StandardMaterial3D" id="mat_bar"]
-albedo_color = Color(0.4, 0.25, 0.15, 1)
+albedo_color = Color(0.32, 0.18, 0.1, 1)
 
 [sub_resource type="StandardMaterial3D" id="mat_asphalt"]
-albedo_color = Color(0.18, 0.18, 0.2, 1)
+albedo_color = Color(0.12, 0.12, 0.13, 1)
 
 [sub_resource type="StandardMaterial3D" id="mat_sidewalk"]
-albedo_color = Color(0.62, 0.62, 0.6, 1)
+albedo_color = Color(0.38, 0.38, 0.37, 1)
 
 [sub_resource type="StandardMaterial3D" id="mat_grass"]
-albedo_color = Color(0.3, 0.55, 0.25, 1)
+albedo_color = Color(0.13, 0.3, 0.1, 1)
 
 [sub_resource type="StandardMaterial3D" id="mat_facade"]
-albedo_color = Color(0.55, 0.5, 0.6, 1)
+albedo_color = Color(0.38, 0.35, 0.42, 1)
 
 [sub_resource type="StandardMaterial3D" id="mat_fence"]
-albedo_color = Color(0.45, 0.3, 0.18, 1)
+albedo_color = Color(0.32, 0.2, 0.12, 1)
 
 [sub_resource type="StandardMaterial3D" id="mat_casa"]
-albedo_color = Color(0.9, 0.65, 0.6, 1)
+albedo_color = Color(0.65, 0.45, 0.4, 1)
 
 [sub_resource type="StandardMaterial3D" id="mat_roof"]
-albedo_color = Color(0.65, 0.2, 0.15, 1)
+albedo_color = Color(0.45, 0.13, 0.1, 1)
 
 [sub_resource type="StandardMaterial3D" id="mat_trunk"]
 albedo_color = Color(0.35, 0.22, 0.12, 1)
@@ -43,13 +43,13 @@ albedo_color = Color(0.15, 0.42, 0.18, 1)
 albedo_color = Color(0.15, 0.15, 0.17, 1)
 
 [sub_resource type="StandardMaterial3D" id="mat_stone"]
-albedo_color = Color(0.7, 0.7, 0.72, 1)
+albedo_color = Color(0.45, 0.45, 0.47, 1)
 
 [sub_resource type="StandardMaterial3D" id="mat_water"]
 albedo_color = Color(0.25, 0.5, 0.85, 1)
 
 [sub_resource type="StandardMaterial3D" id="mat_crate"]
-albedo_color = Color(0.6, 0.45, 0.25, 1)
+albedo_color = Color(0.45, 0.32, 0.17, 1)
 
 [sub_resource type="StandardMaterial3D" id="mat_door"]
 albedo_color = Color(0.3, 0.18, 0.1, 1)

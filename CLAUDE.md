@@ -7,7 +7,7 @@ Juego de hobby (no comercial) tipo life/dating sim en 3D, inspirado en **Schedul
 Proyecto personal. Prioridad absoluta: **pequeño, que funcione, y que se termine**. Nada de sandbox gigante.
 
 ## Decisiones técnicas
-- **Motor:** Godot 4.3+ · **Lenguaje:** GDScript (tipado estático cuando sea razonable).
+- **Motor:** Godot 4.3+, renderer GL Compatibility · **Lenguaje:** GDScript (tipado estático cuando sea razonable).
 - **Personajes:** Mixamo. **Entorno/props:** Kenney o Blender MCP.
 - **Filosofía:** primero funciona con cápsulas/cubos, luego bonito. Nunca al revés.
 
@@ -40,7 +40,8 @@ Registrados en `project.godot`, en `scripts/autoload/` (+ `scenes/ui/` para los 
 - Cada test: `extends "res://tests/test_base.gd"` + `func run_test()`. Helpers: `check()`, `autoload()`, `wait_frames()`, `load_main()`.
 - En tests no uses tipos `class_name` del juego (ver `test_base.gd`).
 - No esperes un número fijo de frames cuando dependas de la física: usa `wait_until()` / `talk_to()`.
-- Verificación visual: Xvfb + `--rendering-driver opengl3` permite capturas, pero es el renderer de compatibilidad (no Forward+): no ajustes iluminación solo con esas capturas.
+- Verificación visual: el proyecto usa el renderer **GL Compatibility** (portátiles modestos, export web). Con Xvfb (`xvfb-run -a godot --path . -s script.gd`) las capturas son fieles al juego real.
+- Iluminación: Compatibility en 4.3 no aplica tonemapping. Albedos realistas (suelos/césped ≤ 0.3–0.4) y luz ambiental de color neutro; un albedo alto bajo el sol sale quemado.
 
 ## Trabajo en paralelo (Hito 2)
 Rama de integración: `claude/ligar-simulator-prototype-jq95e7`. Cada feature en `claude/ligar-<feature>`, PR contra integración.

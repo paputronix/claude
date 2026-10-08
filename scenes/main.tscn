@@ -14,7 +14,9 @@ sky_material = SubResource("sky_mat")
 [sub_resource type="Environment" id="env"]
 background_mode = 2
 sky = SubResource("sky")
-ambient_light_source = 3
+ambient_light_source = 2
+ambient_light_color = Color(0.55, 0.58, 0.65, 1)
+ambient_light_energy = 0.6
 tonemap_mode = 2
 
 [node name="Main" type="Node3D"]
@@ -25,6 +27,8 @@ environment = SubResource("env")
 
 [node name="Sun" type="DirectionalLight3D" parent="."]
 transform = Transform3D(0.866025, -0.353553, 0.353553, 0, 0.707107, 0.707107, -0.5, -0.612372, 0.612372, 0, 10, 0)
+light_color = Color(1, 0.96, 0.9, 1)
+light_energy = 0.9
 shadow_enabled = true
 directional_shadow_max_distance = 60.0
 
