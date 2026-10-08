@@ -1,0 +1,7 @@
+{
+	"entries": [
+		{"from": "18:00", "location": "bar"},
+		{"from": "20:30", "location": "casa_lucia"}
+	],
+	"date_lead_minutes": 40
+}

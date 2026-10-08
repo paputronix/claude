@@ -6,6 +6,7 @@
 [ext_resource type="Texture2D" path="res://assets/characters/skaterFemaleA.png" id="4_skin"]
 [ext_resource type="PackedScene" path="res://assets/characters/idle.fbx" id="5_idle"]
 [ext_resource type="PackedScene" path="res://assets/characters/run.fbx" id="6_run"]
+[ext_resource type="Script" path="res://scripts/npc/npc_brain.gd" id="7_brain"]
 
 [sub_resource type="CapsuleShape3D" id="shape_body"]
 radius = 0.4
@@ -20,12 +21,9 @@ material = SubResource("mat_body")
 inner_radius = 0.45
 outer_radius = 0.55
 
-[sub_resource type="SphereShape3D" id="shape_talk"]
-radius = 2.0
-
-[node name="Npc" type="StaticBody3D" groups=["npcs"]]
+[node name="Npc" type="CharacterBody3D" groups=["npcs"]]
 collision_layer = 1
-collision_mask = 0
+collision_mask = 1
 script = ExtResource("1_npc")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
@@ -52,11 +50,9 @@ font_size = 40
 outline_size = 10
 text = "NPC"
 
-[node name="TalkArea" type="Area3D" parent="."]
-collision_layer = 0
-collision_mask = 2
-monitorable = false
+[node name="NavigationAgent3D" type="NavigationAgent3D" parent="."]
+radius = 0.5
+height = 1.75
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="TalkArea"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.9, 0)
-shape = SubResource("shape_talk")
+[node name="Brain" type="Node" parent="."]
+script = ExtResource("7_brain")
