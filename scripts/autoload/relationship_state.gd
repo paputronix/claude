@@ -10,6 +10,11 @@ const MAX_AFFINITY := 100
 var _affinity: Dictionary = {}
 
 
+## True si ya hay un valor guardado para este NPC (aunque sea 0).
+func has_npc(npc_id: String) -> bool:
+	return _affinity.has(npc_id)
+
+
 func get_affinity(npc_id: String) -> int:
 	return _affinity.get(npc_id, 0)
 

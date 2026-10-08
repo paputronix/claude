@@ -6,6 +6,13 @@ extends CanvasLayer
 ## Formato del JSON:
 ## { "start": "id", "nodes": { "id": { "text": "...", "options": [
 ##     { "text": "...", "affinity": 10, "reaction": "...", "next": "id" | null } ] } } }
+##
+## "start" puede ser un id o un array de condiciones evaluadas en orden (gana la
+## primera que cumpla; sin min/max cumple siempre):
+##   "start": [ {"min_affinity": 50, "node": "amigos"},
+##              {"max_affinity": -20, "node": "enfadada"}, {"node": "saludo"} ]
+## Las opciones admiten "min_affinity"/"max_affinity": si no se cumplen, se ocultan.
+## Una opción puede llevar "action": {...}, que se emite en EventBus.dialogue_action.
 
 signal conversation_started(npc: Npc)
 signal conversation_ended(npc: Npc)
@@ -43,7 +50,22 @@ func start(npc: Npc) -> void:
 	_panel.show()
 	conversation_started.emit(npc)
 	EventBus.conversation_started.emit(npc.npc_id)
-	_show_node(data.get("start", ""))
+	_show_node(_resolve_start(data.get("start", "")))
+
+
+## Devuelve el id del nodo inicial según la afinidad actual.
+func _resolve_start(start) -> Variant:
+	if not start is Array:
+		return start
+	for entry in start:
+		if entry is Dictionary and _meets_affinity(entry):
+			return entry.get("node")
+	return null
+
+
+func _meets_affinity(entry: Dictionary) -> bool:
+	var value := _npc.affinity
+	return value >= int(entry.get("min_affinity", -999)) and value <= int(entry.get("max_affinity", 999))
 
 
 func _show_node(node_id) -> void:
@@ -56,9 +78,10 @@ func _show_node(node_id) -> void:
 	_clear_options()
 
 	var options: Array = node.get("options", [])
-	if options.is_empty():
+	var visible_options := options.filter(_meets_affinity)
+	if visible_options.is_empty():
 		_add_option("Adiós", _end)
-	for option in options:
+	for option in visible_options:
 		_add_option(option.get("text", "..."), _choose.bind(option))
 
 
