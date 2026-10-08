@@ -69,9 +69,8 @@ func run_test() -> void:
 	await talk_to(player, carla)
 	check(ui.is_active(), "[E] abre el diálogo de Carla")
 	var text: String = ui.get_node("%TextLabel").text
-	# "cita" también vale: hasta que DialogueUI implemente "context" (dialogue-v2) la
-	# condición {"context": "date"} del start se cumple siempre.
-	check(_dialogue_texts(carla, ["saludo", "cita"]).has(text), "muestra el texto de Carla: %s" % text)
+	# Sin contexto de cita, el start ignora {"context": "date"} y abre el saludo.
+	check(_dialogue_texts(carla, ["saludo"]).has(text), "muestra el saludo de Carla: %s" % text)
 	check(not _dialogue_texts(lucia, ["saludo"]).has(text), "no es el saludo de Lucía")
 	var options: Node = ui.get_node("%OptionsBox")
 	options.get_child(0).pressed.emit()
