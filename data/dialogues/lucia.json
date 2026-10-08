@@ -1,20 +1,135 @@
 {
-  "start": "saludo",
+  "start": [
+    {
+      "min_affinity": 50,
+      "node": "amigos"
+    },
+    {
+      "min_affinity": 20,
+      "node": "conocidos"
+    },
+    {
+      "max_affinity": -20,
+      "node": "enfadada"
+    },
+    {
+      "node": "saludo"
+    }
+  ],
   "nodes": {
     "saludo": {
       "text": "¡Hola! No te había visto nunca por aquí. ¿Vienes mucho?",
       "options": [
-        { "text": "Solo cuando sé que vas a estar tú.", "affinity": 5, "reaction": "Jaja... qué directo. No sé si me gusta o me da miedo.", "next": "charla" },
-        { "text": "Me ha arrastrado un amigo, pero ya no me arrepiento.", "affinity": 15, "reaction": "Qué majo. Pues brindo por tu amigo.", "next": "charla" },
-        { "text": "¿Y a ti qué te importa?", "affinity": -20, "reaction": "Vale... perdona por preguntar.", "next": null }
+        {
+          "text": "Solo cuando sé que vas a estar tú.",
+          "affinity": 5,
+          "reaction": "Jaja... qué directo. No sé si me gusta o me da miedo.",
+          "next": "charla"
+        },
+        {
+          "text": "Me ha arrastrado un amigo, pero ya no me arrepiento.",
+          "affinity": 15,
+          "reaction": "Qué majo. Pues brindo por tu amigo.",
+          "next": "charla"
+        },
+        {
+          "text": "¿Y a ti qué te importa?",
+          "affinity": -20,
+          "reaction": "Vale... perdona por preguntar.",
+          "next": null
+        }
       ]
     },
     "charla": {
       "text": "Oye, ¿y tú a qué te dedicas?",
       "options": [
-        { "text": "Hago videojuegos. Ahora mismo uno de ligar, irónicamente.", "affinity": 10, "reaction": "¡No me digas! Tienes que enseñármelo.", "next": null },
-        { "text": "Te lo cuento si me dejas invitarte a algo.", "affinity": 5, "reaction": "Mmm... vale, pero que sea algo bueno.", "next": null },
-        { "text": "Nada interesante. ¿Hace cuánto que no vas a la peluquería?", "affinity": -15, "reaction": "...Creo que voy a por otra copa.", "next": null }
+        {
+          "text": "Hago videojuegos. Ahora mismo uno de ligar, irónicamente.",
+          "affinity": 10,
+          "reaction": "¡No me digas! Tienes que enseñármelo.",
+          "next": null
+        },
+        {
+          "text": "Te lo cuento si me dejas invitarte a algo.",
+          "affinity": 5,
+          "reaction": "Mmm... vale, pero que sea algo bueno.",
+          "next": null
+        },
+        {
+          "text": "Nada interesante. ¿Hace cuánto que no vas a la peluquería?",
+          "affinity": -15,
+          "reaction": "...Creo que voy a por otra copa.",
+          "next": null
+        }
+      ]
+    },
+    "conocidos": {
+      "text": "¡Hombre, otra vez tú! Ya empezaba a pensar que me dabas esquinazo.",
+      "options": [
+        {
+          "text": "Jamás. Soy como el wifi: siempre vuelvo a conectarme contigo.",
+          "affinity": 5,
+          "reaction": "Qué cutre... y qué bien me ha sentado, ojo.",
+          "next": null
+        },
+        {
+          "text": "¿Quedamos esta noche a las 21:00 en el parque?",
+          "affinity": 5,
+          "reaction": "¿Esta noche? Mmm... vale, me apetece. Ni se te ocurra llegar tarde.",
+          "action": {
+            "schedule_date": {
+              "location": "parque",
+              "time": "21:00"
+            }
+          },
+          "next": null
+        },
+        {
+          "text": "Solo pasaba a saludar. Hasta luego.",
+          "next": null
+        }
+      ]
+    },
+    "amigos": {
+      "text": "¡Pero mira quién es! Mi persona favorita de esta fiesta. Te estaba guardando sitio.",
+      "options": [
+        {
+          "text": "¿Sitio en la barra o sitio en tu vida?",
+          "affinity": 5,
+          "reaction": "Empieza por la barra, galán, y ya veremos.",
+          "next": null
+        },
+        {
+          "text": "¿Quedamos esta noche a las 21:00 en el parque?",
+          "affinity": 5,
+          "reaction": "¡Plan! Y esta vez invito yo a la primera. Solo a la primera.",
+          "action": {
+            "schedule_date": {
+              "location": "parque",
+              "time": "21:00"
+            }
+          },
+          "next": null
+        },
+        {
+          "text": "Luego te busco, que me reclaman mis fans.",
+          "next": null
+        }
+      ]
+    },
+    "enfadada": {
+      "text": "Ah, eres tú. Hoy no tengo el cuerpo para tonterías.",
+      "options": [
+        {
+          "text": "Perdona por lo del otro día. Fui un maleducado.",
+          "affinity": 10,
+          "reaction": "...Vale. Gracias por decirlo. Sigo mosqueada, pero gracias.",
+          "next": null
+        },
+        {
+          "text": "Vale, vale, me voy.",
+          "next": null
+        }
       ]
     }
   }
