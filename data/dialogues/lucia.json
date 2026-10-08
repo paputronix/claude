@@ -1,0 +1,21 @@
+{
+  "start": "saludo",
+  "nodes": {
+    "saludo": {
+      "text": "¡Hola! No te había visto nunca por aquí. ¿Vienes mucho?",
+      "options": [
+        { "text": "Solo cuando sé que vas a estar tú.", "affinity": 5, "reaction": "Jaja... qué directo. No sé si me gusta o me da miedo.", "next": "charla" },
+        { "text": "Me ha arrastrado un amigo, pero ya no me arrepiento.", "affinity": 15, "reaction": "Qué majo. Pues brindo por tu amigo.", "next": "charla" },
+        { "text": "¿Y a ti qué te importa?", "affinity": -20, "reaction": "Vale... perdona por preguntar.", "next": null }
+      ]
+    },
+    "charla": {
+      "text": "Oye, ¿y tú a qué te dedicas?",
+      "options": [
+        { "text": "Hago videojuegos. Ahora mismo uno de ligar, irónicamente.", "affinity": 10, "reaction": "¡No me digas! Tienes que enseñármelo.", "next": null },
+        { "text": "Te lo cuento si me dejas invitarte a algo.", "affinity": 5, "reaction": "Mmm... vale, pero que sea algo bueno.", "next": null },
+        { "text": "Nada interesante. ¿Hace cuánto que no vas a la peluquería?", "affinity": -15, "reaction": "...Creo que voy a por otra copa.", "next": null }
+      ]
+    }
+  }
+}
