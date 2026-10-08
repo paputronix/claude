@@ -1,7 +1,7 @@
 extends Node3D
 ## Va en la raíz del modelo animado (nodo `Model`). Aplica la skin y reproduce
 ## idle/run según la velocidad horizontal del CharacterBody3D ancestro.
-## Si no hay CharacterBody3D (p. ej. el NPC es StaticBody3D), idle en bucle.
+## Si no hay CharacterBody3D ancestro, idle en bucle.
 ## Las animaciones vienen en FBX aparte (mismo esqueleto): se copian en un
 ## AnimationPlayer propio al arrancar.
 
