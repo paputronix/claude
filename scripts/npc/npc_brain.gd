@@ -29,6 +29,9 @@ var talking := false
 
 var schedule: RefCounted
 
+## Destinos no registrados ya avisados (un solo aviso por destino).
+var _warned: Dictionary = {}
+
 @onready var _npc: Npc = get_parent()
 @onready var _agent: NavigationAgent3D = get_parent().get_node("NavigationAgent3D")
 
@@ -50,6 +53,9 @@ func evaluate() -> void:
 	active_date = _find_active_date()
 	var target: String = active_date.location_id if not active_date.is_empty() \
 			else schedule.location_at(GameClock.minutes_of_day)
+	if not target.is_empty() and not Locations.has(target) and not _warned.has(target):
+		_warned[target] = true
+		push_warning("%s: el location '%s' no está registrado; se queda quieto" % [_npc.npc_id, target])
 	var inside := Locations.has(target) and Locations.is_at(target, _npc.global_position)
 	if target != destination:
 		destination = target
