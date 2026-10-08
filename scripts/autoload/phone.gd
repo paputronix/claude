@@ -291,8 +291,9 @@ func _build_ui() -> void:
 	_badge.anchor_right = 1.0
 	_badge.offset_left = -64.0
 	_badge.offset_right = -16.0
-	_badge.offset_top = 56.0
-	_badge.offset_bottom = 84.0
+	# Debajo del HUD del reloj (hora, día y saldo).
+	_badge.offset_top = 124.0
+	_badge.offset_bottom = 152.0
 	_badge.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	var bstyle := StyleBoxFlat.new()
 	bstyle.bg_color = Color(0.85, 0.2, 0.25)
