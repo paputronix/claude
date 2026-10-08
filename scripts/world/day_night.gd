@@ -78,7 +78,7 @@ const STREET_LAMP_GROUP := "street_lamps"
 ## Ventanas iluminadas de noche.
 const WINDOW_GROUP := "window_glass"
 const WINDOW_COLOR := Color(1.0, 0.68, 0.32)
-const WINDOW_EMISSION := 0.9
+const WINDOW_EMISSION := 2.2
 const WINDOW_LIT_ALBEDO := Color(0.1, 0.08, 0.06)
 ## Nivel de luz por ventana (elegido por su posición): variedad de pisos encendidos.
 const WINDOW_LEVELS := [1.0, 0.7, 0.0, 1.0, 0.45, 0.85]

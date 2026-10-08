@@ -6,7 +6,7 @@ extends "res://tests/test_base.gd"
 
 const TOON := "res://scripts/visual/toon_materials.gd"
 const OUTLINE := "res://shaders/outline.gdshader"
-const TEXTURE := "res://assets/characters/carla_skin.png"
+const TEXTURE := "res://assets/characters/anime/lucia_F00_000_Face_00.png"
 
 
 func run_test() -> void:

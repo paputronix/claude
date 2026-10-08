@@ -26,5 +26,5 @@ func run_test() -> void:
 	check(not autoload("Locations").is_at("kiosko", Vector3(33, 0, 0)), "radio respetado")
 	marker.queue_free()
 
-	var tex: Texture2D = load("res://assets/characters/carla_skin.png")
-	check(tex != null and tex.get_width() == 1024, "skin de Carla importada")
+	var carla_model: PackedScene = load("res://assets/characters/anime/carla.glb")
+	check(carla_model != null, "modelo anime de Carla importado")

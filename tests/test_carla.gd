@@ -49,11 +49,8 @@ func run_test() -> void:
 	var lucia_model := _model_info(lucia)
 	check(carla_model[0] == CARLA_MODEL and carla_model[1] > 0, "Carla usa carla.glb: %s" % [carla_model])
 	check(lucia_model[0] == LUCIA_MODEL and lucia_model[1] > 0, "Lucía usa lucia.glb: %s" % [lucia_model])
-	# `skin` (obsoleto) sigue existiendo para que main.tscn cargue, pero no se pinta encima del modelo.
-	check("skin" in carla, "Npc.skin sigue existiendo (obsoleto)")
-	var painted := carla.get_node("Visual/Model").find_children("*", "MeshInstance3D", true, false).filter(
-		func(m): return m.material_override is StandardMaterial3D and m.material_override.albedo_texture == carla.skin)
-	check(carla.skin == null or painted.is_empty(), "la skin obsoleta no se aplica al modelo")
+	# La antigua propiedad `skin` (Kenney) ya no existe: el modelo sale de data/characters.json.
+	check(not ("skin" in carla), "Npc.skin retirado")
 
 	# --- Horario sin locations: quieta y sin errores ---
 	check(brain.schedule.location_at(18 * 60) == "terraza", "18:00 terraza")
