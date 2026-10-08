@@ -40,6 +40,16 @@ func wait_frames(count: int) -> void:
 		await physics_frame
 
 
+## Simula pulsar y soltar una action (p. ej. "interact") y espera un par de frames.
+func press_action(action: String) -> void:
+	for pressed in [true, false]:
+		var ev := InputEventAction.new()
+		ev.action = action
+		ev.pressed = pressed
+		Input.parse_input_event(ev)
+		await wait_frames(2)
+
+
 func load_main() -> Node:
 	var main: Node = load("res://scenes/main.tscn").instantiate()
 	root.add_child(main)
