@@ -1,0 +1,824 @@
+[gd_scene load_steps=78 format=3]
+
+[ext_resource type="Script" path="res://scripts/world/world.gd" id="1_world"]
+[ext_resource type="Script" path="res://scripts/world/location_marker.gd" id="2_marker"]
+
+[sub_resource type="StandardMaterial3D" id="mat_floor"]
+albedo_color = Color(0.45, 0.45, 0.5, 1)
+
+[sub_resource type="StandardMaterial3D" id="mat_wall"]
+albedo_color = Color(0.85, 0.8, 0.72, 1)
+
+[sub_resource type="StandardMaterial3D" id="mat_bar"]
+albedo_color = Color(0.4, 0.25, 0.15, 1)
+
+[sub_resource type="StandardMaterial3D" id="mat_asphalt"]
+albedo_color = Color(0.18, 0.18, 0.2, 1)
+
+[sub_resource type="StandardMaterial3D" id="mat_sidewalk"]
+albedo_color = Color(0.62, 0.62, 0.6, 1)
+
+[sub_resource type="StandardMaterial3D" id="mat_grass"]
+albedo_color = Color(0.3, 0.55, 0.25, 1)
+
+[sub_resource type="StandardMaterial3D" id="mat_facade"]
+albedo_color = Color(0.55, 0.5, 0.6, 1)
+
+[sub_resource type="StandardMaterial3D" id="mat_fence"]
+albedo_color = Color(0.45, 0.3, 0.18, 1)
+
+[sub_resource type="StandardMaterial3D" id="mat_casa"]
+albedo_color = Color(0.9, 0.65, 0.6, 1)
+
+[sub_resource type="StandardMaterial3D" id="mat_roof"]
+albedo_color = Color(0.65, 0.2, 0.15, 1)
+
+[sub_resource type="StandardMaterial3D" id="mat_trunk"]
+albedo_color = Color(0.35, 0.22, 0.12, 1)
+
+[sub_resource type="StandardMaterial3D" id="mat_leaves"]
+albedo_color = Color(0.15, 0.42, 0.18, 1)
+
+[sub_resource type="StandardMaterial3D" id="mat_pole"]
+albedo_color = Color(0.15, 0.15, 0.17, 1)
+
+[sub_resource type="StandardMaterial3D" id="mat_stone"]
+albedo_color = Color(0.7, 0.7, 0.72, 1)
+
+[sub_resource type="StandardMaterial3D" id="mat_water"]
+albedo_color = Color(0.25, 0.5, 0.85, 1)
+
+[sub_resource type="StandardMaterial3D" id="mat_crate"]
+albedo_color = Color(0.6, 0.45, 0.25, 1)
+
+[sub_resource type="StandardMaterial3D" id="mat_door"]
+albedo_color = Color(0.3, 0.18, 0.1, 1)
+
+[sub_resource type="StandardMaterial3D" id="mat_lamp"]
+albedo_color = Color(1, 0.9, 0.6, 1)
+emission_enabled = true
+emission = Color(1, 0.85, 0.5, 1)
+
+[sub_resource type="NavigationMesh" id="navmesh"]
+geometry_parsed_geometry_type = 1
+cell_size = 0.25
+cell_height = 0.25
+agent_height = 1.75
+agent_radius = 0.5
+agent_max_climb = 0.25
+
+[sub_resource type="BoxMesh" id="boxmesh_0"]
+material = SubResource("mat_floor")
+size = Vector3(20, 0.5, 20)
+
+[sub_resource type="BoxShape3D" id="boxshape3d_1"]
+size = Vector3(20, 0.5, 20)
+
+[sub_resource type="BoxMesh" id="boxmesh_2"]
+material = SubResource("mat_wall")
+size = Vector3(21, 3, 0.5)
+
+[sub_resource type="BoxShape3D" id="boxshape3d_3"]
+size = Vector3(21, 3, 0.5)
+
+[sub_resource type="BoxMesh" id="boxmesh_4"]
+material = SubResource("mat_wall")
+size = Vector3(0.5, 3, 20)
+
+[sub_resource type="BoxShape3D" id="boxshape3d_5"]
+size = Vector3(0.5, 3, 20)
+
+[sub_resource type="BoxMesh" id="boxmesh_6"]
+material = SubResource("mat_wall")
+size = Vector3(9, 3, 0.5)
+
+[sub_resource type="BoxShape3D" id="boxshape3d_7"]
+size = Vector3(9, 3, 0.5)
+
+[sub_resource type="BoxMesh" id="boxmesh_8"]
+material = SubResource("mat_wall")
+size = Vector3(3, 0.6, 0.5)
+
+[sub_resource type="BoxShape3D" id="boxshape3d_9"]
+size = Vector3(3, 0.6, 0.5)
+
+[sub_resource type="BoxMesh" id="boxmesh_10"]
+material = SubResource("mat_bar")
+size = Vector3(8, 1.1, 1)
+
+[sub_resource type="BoxShape3D" id="boxshape3d_11"]
+size = Vector3(8, 1.1, 1)
+
+[sub_resource type="CylinderMesh" id="cylindermesh_12"]
+material = SubResource("mat_bar")
+top_radius = 0.6
+bottom_radius = 0.6
+height = 0.8
+radial_segments = 12
+
+[sub_resource type="CylinderShape3D" id="cylindershape3d_13"]
+radius = 0.6
+height = 0.8
+
+[sub_resource type="BoxMesh" id="boxmesh_14"]
+material = SubResource("mat_sidewalk")
+size = Vector3(5, 0.5, 60)
+
+[sub_resource type="BoxShape3D" id="boxshape3d_15"]
+size = Vector3(5, 0.5, 60)
+
+[sub_resource type="BoxMesh" id="boxmesh_16"]
+material = SubResource("mat_asphalt")
+size = Vector3(6, 0.5, 60)
+
+[sub_resource type="BoxShape3D" id="boxshape3d_17"]
+size = Vector3(6, 0.5, 60)
+
+[sub_resource type="BoxMesh" id="boxmesh_18"]
+material = SubResource("mat_facade")
+size = Vector3(1, 3, 59.5)
+
+[sub_resource type="BoxShape3D" id="boxshape3d_19"]
+size = Vector3(1, 3, 59.5)
+
+[sub_resource type="BoxMesh" id="boxmesh_20"]
+material = SubResource("mat_facade")
+size = Vector3(1, 3, 23.5)
+
+[sub_resource type="BoxShape3D" id="boxshape3d_21"]
+size = Vector3(1, 3, 23.5)
+
+[sub_resource type="BoxMesh" id="boxmesh_22"]
+material = SubResource("mat_facade")
+size = Vector3(1, 3, 26)
+
+[sub_resource type="BoxShape3D" id="boxshape3d_23"]
+size = Vector3(1, 3, 26)
+
+[sub_resource type="CylinderMesh" id="cylindermesh_24"]
+material = SubResource("mat_pole")
+top_radius = 0.12
+bottom_radius = 0.12
+height = 4
+radial_segments = 12
+
+[sub_resource type="CylinderShape3D" id="cylindershape3d_25"]
+radius = 0.12
+height = 4
+
+[sub_resource type="SphereMesh" id="spheremesh_26"]
+material = SubResource("mat_lamp")
+radius = 0.3
+height = 0.6
+radial_segments = 12
+rings = 6
+
+[sub_resource type="BoxMesh" id="boxmesh_27"]
+material = SubResource("mat_crate")
+size = Vector3(1, 1, 1)
+
+[sub_resource type="BoxShape3D" id="boxshape3d_28"]
+size = Vector3(1, 1, 1)
+
+[sub_resource type="BoxMesh" id="boxmesh_29"]
+material = SubResource("mat_crate")
+size = Vector3(0.8, 0.8, 0.8)
+
+[sub_resource type="BoxShape3D" id="boxshape3d_30"]
+size = Vector3(0.8, 0.8, 0.8)
+
+[sub_resource type="BoxMesh" id="boxmesh_31"]
+material = SubResource("mat_casa")
+size = Vector3(8, 4, 10)
+
+[sub_resource type="BoxShape3D" id="boxshape3d_32"]
+size = Vector3(8, 4, 10)
+
+[sub_resource type="BoxMesh" id="boxmesh_33"]
+material = SubResource("mat_roof")
+size = Vector3(8.6, 0.4, 10.6)
+
+[sub_resource type="BoxShape3D" id="boxshape3d_34"]
+size = Vector3(8.6, 0.4, 10.6)
+
+[sub_resource type="BoxMesh" id="boxmesh_35"]
+material = SubResource("mat_grass")
+size = Vector3(50, 0.5, 50)
+
+[sub_resource type="BoxShape3D" id="boxshape3d_36"]
+size = Vector3(50, 0.5, 50)
+
+[sub_resource type="BoxMesh" id="boxmesh_37"]
+material = SubResource("mat_fence")
+size = Vector3(17.3, 1.5, 0.3)
+
+[sub_resource type="BoxShape3D" id="boxshape3d_38"]
+size = Vector3(17.3, 1.5, 0.3)
+
+[sub_resource type="BoxMesh" id="boxmesh_39"]
+material = SubResource("mat_fence")
+size = Vector3(50.6, 1.5, 0.3)
+
+[sub_resource type="BoxShape3D" id="boxshape3d_40"]
+size = Vector3(50.6, 1.5, 0.3)
+
+[sub_resource type="BoxMesh" id="boxmesh_41"]
+material = SubResource("mat_fence")
+size = Vector3(0.3, 1.5, 50)
+
+[sub_resource type="BoxShape3D" id="boxshape3d_42"]
+size = Vector3(0.3, 1.5, 50)
+
+[sub_resource type="CylinderMesh" id="cylindermesh_43"]
+material = SubResource("mat_trunk")
+top_radius = 0.25
+bottom_radius = 0.25
+height = 2.5
+radial_segments = 12
+
+[sub_resource type="CylinderShape3D" id="cylindershape3d_44"]
+radius = 0.25
+height = 2.5
+
+[sub_resource type="SphereMesh" id="spheremesh_45"]
+material = SubResource("mat_leaves")
+radius = 1.5
+height = 3
+radial_segments = 12
+rings = 6
+
+[sub_resource type="BoxMesh" id="boxmesh_46"]
+material = SubResource("mat_bar")
+size = Vector3(2, 0.5, 0.6)
+
+[sub_resource type="BoxShape3D" id="boxshape3d_47"]
+size = Vector3(2, 0.5, 0.6)
+
+[sub_resource type="BoxMesh" id="boxmesh_48"]
+material = SubResource("mat_bar")
+size = Vector3(2, 0.6, 0.1)
+
+[sub_resource type="BoxShape3D" id="boxshape3d_49"]
+size = Vector3(2, 0.6, 0.1)
+
+[sub_resource type="CylinderMesh" id="cylindermesh_50"]
+material = SubResource("mat_stone")
+top_radius = 2.5
+bottom_radius = 2.5
+height = 0.6
+radial_segments = 12
+
+[sub_resource type="CylinderShape3D" id="cylindershape3d_51"]
+radius = 2.5
+height = 0.6
+
+[sub_resource type="CylinderMesh" id="cylindermesh_52"]
+material = SubResource("mat_water")
+top_radius = 2.2
+bottom_radius = 2.2
+height = 0.06
+radial_segments = 12
+
+[sub_resource type="CylinderMesh" id="cylindermesh_53"]
+material = SubResource("mat_stone")
+top_radius = 0.3
+bottom_radius = 0.3
+height = 1.6
+radial_segments = 12
+
+[sub_resource type="CylinderShape3D" id="cylindershape3d_54"]
+radius = 0.3
+height = 1.6
+
+[sub_resource type="BoxMesh" id="boxmesh_55"]
+material = SubResource("mat_door")
+size = Vector3(0.1, 2.2, 1.4)
+
+[node name="World" type="Node3D"]
+script = ExtResource("1_world")
+
+[node name="NavigationRegion3D" type="NavigationRegion3D" parent="."]
+navigation_mesh = SubResource("navmesh")
+
+[node name="BarFloor" type="StaticBody3D" parent="NavigationRegion3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.25, 0)
+
+[node name="Mesh" type="MeshInstance3D" parent="NavigationRegion3D/BarFloor"]
+mesh = SubResource("boxmesh_0")
+
+[node name="Shape" type="CollisionShape3D" parent="NavigationRegion3D/BarFloor"]
+shape = SubResource("boxshape3d_1")
+
+[node name="BarWallNorth" type="StaticBody3D" parent="NavigationRegion3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, -10.25)
+
+[node name="Mesh" type="MeshInstance3D" parent="NavigationRegion3D/BarWallNorth"]
+mesh = SubResource("boxmesh_2")
+
+[node name="Shape" type="CollisionShape3D" parent="NavigationRegion3D/BarWallNorth"]
+shape = SubResource("boxshape3d_3")
+
+[node name="BarWallEast" type="StaticBody3D" parent="NavigationRegion3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10.25, 1.5, 0)
+
+[node name="Mesh" type="MeshInstance3D" parent="NavigationRegion3D/BarWallEast"]
+mesh = SubResource("boxmesh_4")
+
+[node name="Shape" type="CollisionShape3D" parent="NavigationRegion3D/BarWallEast"]
+shape = SubResource("boxshape3d_5")
+
+[node name="BarWallWest" type="StaticBody3D" parent="NavigationRegion3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -10.25, 1.5, 0)
+
+[node name="Mesh" type="MeshInstance3D" parent="NavigationRegion3D/BarWallWest"]
+mesh = SubResource("boxmesh_4")
+
+[node name="Shape" type="CollisionShape3D" parent="NavigationRegion3D/BarWallWest"]
+shape = SubResource("boxshape3d_5")
+
+[node name="BarWallSouthW" type="StaticBody3D" parent="NavigationRegion3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6, 1.5, 10.25)
+
+[node name="Mesh" type="MeshInstance3D" parent="NavigationRegion3D/BarWallSouthW"]
+mesh = SubResource("boxmesh_6")
+
+[node name="Shape" type="CollisionShape3D" parent="NavigationRegion3D/BarWallSouthW"]
+shape = SubResource("boxshape3d_7")
+
+[node name="BarWallSouthE" type="StaticBody3D" parent="NavigationRegion3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6, 1.5, 10.25)
+
+[node name="Mesh" type="MeshInstance3D" parent="NavigationRegion3D/BarWallSouthE"]
+mesh = SubResource("boxmesh_6")
+
+[node name="Shape" type="CollisionShape3D" parent="NavigationRegion3D/BarWallSouthE"]
+shape = SubResource("boxshape3d_7")
+
+[node name="BarDoorLintel" type="StaticBody3D" parent="NavigationRegion3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.7, 10.25)
+
+[node name="Mesh" type="MeshInstance3D" parent="NavigationRegion3D/BarDoorLintel"]
+mesh = SubResource("boxmesh_8")
+
+[node name="Shape" type="CollisionShape3D" parent="NavigationRegion3D/BarDoorLintel"]
+shape = SubResource("boxshape3d_9")
+
+[node name="BarCounter" type="StaticBody3D" parent="NavigationRegion3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.55, -8.5)
+
+[node name="Mesh" type="MeshInstance3D" parent="NavigationRegion3D/BarCounter"]
+mesh = SubResource("boxmesh_10")
+
+[node name="Shape" type="CollisionShape3D" parent="NavigationRegion3D/BarCounter"]
+shape = SubResource("boxshape3d_11")
+
+[node name="BarTableA" type="StaticBody3D" parent="NavigationRegion3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6, 0.4, 1)
+
+[node name="Mesh" type="MeshInstance3D" parent="NavigationRegion3D/BarTableA"]
+mesh = SubResource("cylindermesh_12")
+
+[node name="Shape" type="CollisionShape3D" parent="NavigationRegion3D/BarTableA"]
+shape = SubResource("cylindershape3d_13")
+
+[node name="BarTableB" type="StaticBody3D" parent="NavigationRegion3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6, 0.4, 1)
+
+[node name="Mesh" type="MeshInstance3D" parent="NavigationRegion3D/BarTableB"]
+mesh = SubResource("cylindermesh_12")
+
+[node name="Shape" type="CollisionShape3D" parent="NavigationRegion3D/BarTableB"]
+shape = SubResource("cylindershape3d_13")
+
+[node name="SidewalkWest" type="StaticBody3D" parent="NavigationRegion3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5.5, -0.25, 40)
+
+[node name="Mesh" type="MeshInstance3D" parent="NavigationRegion3D/SidewalkWest"]
+mesh = SubResource("boxmesh_14")
+
+[node name="Shape" type="CollisionShape3D" parent="NavigationRegion3D/SidewalkWest"]
+shape = SubResource("boxshape3d_15")
+
+[node name="Asphalt" type="StaticBody3D" parent="NavigationRegion3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.25, 40)
+
+[node name="Mesh" type="MeshInstance3D" parent="NavigationRegion3D/Asphalt"]
+mesh = SubResource("boxmesh_16")
+
+[node name="Shape" type="CollisionShape3D" parent="NavigationRegion3D/Asphalt"]
+shape = SubResource("boxshape3d_17")
+
+[node name="SidewalkEast" type="StaticBody3D" parent="NavigationRegion3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5.5, -0.25, 40)
+
+[node name="Mesh" type="MeshInstance3D" parent="NavigationRegion3D/SidewalkEast"]
+mesh = SubResource("boxmesh_14")
+
+[node name="Shape" type="CollisionShape3D" parent="NavigationRegion3D/SidewalkEast"]
+shape = SubResource("boxshape3d_15")
+
+[node name="FacadeWest" type="StaticBody3D" parent="NavigationRegion3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -8.5, 1.5, 40.25)
+
+[node name="Mesh" type="MeshInstance3D" parent="NavigationRegion3D/FacadeWest"]
+mesh = SubResource("boxmesh_18")
+
+[node name="Shape" type="CollisionShape3D" parent="NavigationRegion3D/FacadeWest"]
+shape = SubResource("boxshape3d_19")
+
+[node name="FacadeEastN" type="StaticBody3D" parent="NavigationRegion3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 8.5, 1.5, 22.25)
+
+[node name="Mesh" type="MeshInstance3D" parent="NavigationRegion3D/FacadeEastN"]
+mesh = SubResource("boxmesh_20")
+
+[node name="Shape" type="CollisionShape3D" parent="NavigationRegion3D/FacadeEastN"]
+shape = SubResource("boxshape3d_21")
+
+[node name="FacadeEastS" type="StaticBody3D" parent="NavigationRegion3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 8.5, 1.5, 57)
+
+[node name="Mesh" type="MeshInstance3D" parent="NavigationRegion3D/FacadeEastS"]
+mesh = SubResource("boxmesh_22")
+
+[node name="Shape" type="CollisionShape3D" parent="NavigationRegion3D/FacadeEastS"]
+shape = SubResource("boxshape3d_23")
+
+[node name="LampPoleW0" type="StaticBody3D" parent="NavigationRegion3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4, 2, 20)
+
+[node name="Mesh" type="MeshInstance3D" parent="NavigationRegion3D/LampPoleW0"]
+mesh = SubResource("cylindermesh_24")
+
+[node name="Shape" type="CollisionShape3D" parent="NavigationRegion3D/LampPoleW0"]
+shape = SubResource("cylindershape3d_25")
+
+[node name="LampBulbW0" type="MeshInstance3D" parent="NavigationRegion3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4, 4.1, 20)
+mesh = SubResource("spheremesh_26")
+
+[node name="LampPoleE0" type="StaticBody3D" parent="NavigationRegion3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4, 2, 20)
+
+[node name="Mesh" type="MeshInstance3D" parent="NavigationRegion3D/LampPoleE0"]
+mesh = SubResource("cylindermesh_24")
+
+[node name="Shape" type="CollisionShape3D" parent="NavigationRegion3D/LampPoleE0"]
+shape = SubResource("cylindershape3d_25")
+
+[node name="LampBulbE0" type="MeshInstance3D" parent="NavigationRegion3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4, 4.1, 20)
+mesh = SubResource("spheremesh_26")
+
+[node name="LampPoleW1" type="StaticBody3D" parent="NavigationRegion3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4, 2, 35)
+
+[node name="Mesh" type="MeshInstance3D" parent="NavigationRegion3D/LampPoleW1"]
+mesh = SubResource("cylindermesh_24")
+
+[node name="Shape" type="CollisionShape3D" parent="NavigationRegion3D/LampPoleW1"]
+shape = SubResource("cylindershape3d_25")
+
+[node name="LampBulbW1" type="MeshInstance3D" parent="NavigationRegion3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4, 4.1, 35)
+mesh = SubResource("spheremesh_26")
+
+[node name="LampPoleE1" type="StaticBody3D" parent="NavigationRegion3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4, 2, 35)
+
+[node name="Mesh" type="MeshInstance3D" parent="NavigationRegion3D/LampPoleE1"]
+mesh = SubResource("cylindermesh_24")
+
+[node name="Shape" type="CollisionShape3D" parent="NavigationRegion3D/LampPoleE1"]
+shape = SubResource("cylindershape3d_25")
+
+[node name="LampBulbE1" type="MeshInstance3D" parent="NavigationRegion3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4, 4.1, 35)
+mesh = SubResource("spheremesh_26")
+
+[node name="LampPoleW2" type="StaticBody3D" parent="NavigationRegion3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4, 2, 50)
+
+[node name="Mesh" type="MeshInstance3D" parent="NavigationRegion3D/LampPoleW2"]
+mesh = SubResource("cylindermesh_24")
+
+[node name="Shape" type="CollisionShape3D" parent="NavigationRegion3D/LampPoleW2"]
+shape = SubResource("cylindershape3d_25")
+
+[node name="LampBulbW2" type="MeshInstance3D" parent="NavigationRegion3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4, 4.1, 50)
+mesh = SubResource("spheremesh_26")
+
+[node name="LampPoleE2" type="StaticBody3D" parent="NavigationRegion3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4, 2, 50)
+
+[node name="Mesh" type="MeshInstance3D" parent="NavigationRegion3D/LampPoleE2"]
+mesh = SubResource("cylindermesh_24")
+
+[node name="Shape" type="CollisionShape3D" parent="NavigationRegion3D/LampPoleE2"]
+shape = SubResource("cylindershape3d_25")
+
+[node name="LampBulbE2" type="MeshInstance3D" parent="NavigationRegion3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4, 4.1, 50)
+mesh = SubResource("spheremesh_26")
+
+[node name="LampPoleW3" type="StaticBody3D" parent="NavigationRegion3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4, 2, 65)
+
+[node name="Mesh" type="MeshInstance3D" parent="NavigationRegion3D/LampPoleW3"]
+mesh = SubResource("cylindermesh_24")
+
+[node name="Shape" type="CollisionShape3D" parent="NavigationRegion3D/LampPoleW3"]
+shape = SubResource("cylindershape3d_25")
+
+[node name="LampBulbW3" type="MeshInstance3D" parent="NavigationRegion3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4, 4.1, 65)
+mesh = SubResource("spheremesh_26")
+
+[node name="LampPoleE3" type="StaticBody3D" parent="NavigationRegion3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4, 2, 65)
+
+[node name="Mesh" type="MeshInstance3D" parent="NavigationRegion3D/LampPoleE3"]
+mesh = SubResource("cylindermesh_24")
+
+[node name="Shape" type="CollisionShape3D" parent="NavigationRegion3D/LampPoleE3"]
+shape = SubResource("cylindershape3d_25")
+
+[node name="LampBulbE3" type="MeshInstance3D" parent="NavigationRegion3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4, 4.1, 65)
+mesh = SubResource("spheremesh_26")
+
+[node name="CrateA" type="StaticBody3D" parent="NavigationRegion3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6.5, 0.5, 14)
+
+[node name="Mesh" type="MeshInstance3D" parent="NavigationRegion3D/CrateA"]
+mesh = SubResource("boxmesh_27")
+
+[node name="Shape" type="CollisionShape3D" parent="NavigationRegion3D/CrateA"]
+shape = SubResource("boxshape3d_28")
+
+[node name="CrateB" type="StaticBody3D" parent="NavigationRegion3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6.5, 0.4, 15.2)
+
+[node name="Mesh" type="MeshInstance3D" parent="NavigationRegion3D/CrateB"]
+mesh = SubResource("boxmesh_29")
+
+[node name="Shape" type="CollisionShape3D" parent="NavigationRegion3D/CrateB"]
+shape = SubResource("boxshape3d_30")
+
+[node name="CrateC" type="StaticBody3D" parent="NavigationRegion3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6.8, 0.5, 58)
+
+[node name="Mesh" type="MeshInstance3D" parent="NavigationRegion3D/CrateC"]
+mesh = SubResource("boxmesh_27")
+
+[node name="Shape" type="CollisionShape3D" parent="NavigationRegion3D/CrateC"]
+shape = SubResource("boxshape3d_28")
+
+[node name="CasaLucia" type="StaticBody3D" parent="NavigationRegion3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 12, 2, 39)
+
+[node name="Mesh" type="MeshInstance3D" parent="NavigationRegion3D/CasaLucia"]
+mesh = SubResource("boxmesh_31")
+
+[node name="Shape" type="CollisionShape3D" parent="NavigationRegion3D/CasaLucia"]
+shape = SubResource("boxshape3d_32")
+
+[node name="CasaRoof" type="StaticBody3D" parent="NavigationRegion3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 12, 4.2, 39)
+
+[node name="Mesh" type="MeshInstance3D" parent="NavigationRegion3D/CasaRoof"]
+mesh = SubResource("boxmesh_33")
+
+[node name="Shape" type="CollisionShape3D" parent="NavigationRegion3D/CasaRoof"]
+shape = SubResource("boxshape3d_34")
+
+[node name="Grass" type="StaticBody3D" parent="NavigationRegion3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.25, 95)
+
+[node name="Mesh" type="MeshInstance3D" parent="NavigationRegion3D/Grass"]
+mesh = SubResource("boxmesh_35")
+
+[node name="Shape" type="CollisionShape3D" parent="NavigationRegion3D/Grass"]
+shape = SubResource("boxshape3d_36")
+
+[node name="FenceNorthW" type="StaticBody3D" parent="NavigationRegion3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -16.65, 0.75, 70)
+
+[node name="Mesh" type="MeshInstance3D" parent="NavigationRegion3D/FenceNorthW"]
+mesh = SubResource("boxmesh_37")
+
+[node name="Shape" type="CollisionShape3D" parent="NavigationRegion3D/FenceNorthW"]
+shape = SubResource("boxshape3d_38")
+
+[node name="FenceNorthE" type="StaticBody3D" parent="NavigationRegion3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 16.65, 0.75, 70)
+
+[node name="Mesh" type="MeshInstance3D" parent="NavigationRegion3D/FenceNorthE"]
+mesh = SubResource("boxmesh_37")
+
+[node name="Shape" type="CollisionShape3D" parent="NavigationRegion3D/FenceNorthE"]
+shape = SubResource("boxshape3d_38")
+
+[node name="FenceSouth" type="StaticBody3D" parent="NavigationRegion3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.75, 120.15)
+
+[node name="Mesh" type="MeshInstance3D" parent="NavigationRegion3D/FenceSouth"]
+mesh = SubResource("boxmesh_39")
+
+[node name="Shape" type="CollisionShape3D" parent="NavigationRegion3D/FenceSouth"]
+shape = SubResource("boxshape3d_40")
+
+[node name="FenceWest" type="StaticBody3D" parent="NavigationRegion3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -25.15, 0.75, 95)
+
+[node name="Mesh" type="MeshInstance3D" parent="NavigationRegion3D/FenceWest"]
+mesh = SubResource("boxmesh_41")
+
+[node name="Shape" type="CollisionShape3D" parent="NavigationRegion3D/FenceWest"]
+shape = SubResource("boxshape3d_42")
+
+[node name="FenceEast" type="StaticBody3D" parent="NavigationRegion3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 25.15, 0.75, 95)
+
+[node name="Mesh" type="MeshInstance3D" parent="NavigationRegion3D/FenceEast"]
+mesh = SubResource("boxmesh_41")
+
+[node name="Shape" type="CollisionShape3D" parent="NavigationRegion3D/FenceEast"]
+shape = SubResource("boxshape3d_42")
+
+[node name="Trunk0" type="StaticBody3D" parent="NavigationRegion3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -18, 1.25, 78)
+
+[node name="Mesh" type="MeshInstance3D" parent="NavigationRegion3D/Trunk0"]
+mesh = SubResource("cylindermesh_43")
+
+[node name="Shape" type="CollisionShape3D" parent="NavigationRegion3D/Trunk0"]
+shape = SubResource("cylindershape3d_44")
+
+[node name="Leaves0" type="MeshInstance3D" parent="NavigationRegion3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -18, 3.3, 78)
+mesh = SubResource("spheremesh_45")
+
+[node name="Trunk1" type="StaticBody3D" parent="NavigationRegion3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -12, 1.25, 110)
+
+[node name="Mesh" type="MeshInstance3D" parent="NavigationRegion3D/Trunk1"]
+mesh = SubResource("cylindermesh_43")
+
+[node name="Shape" type="CollisionShape3D" parent="NavigationRegion3D/Trunk1"]
+shape = SubResource("cylindershape3d_44")
+
+[node name="Leaves1" type="MeshInstance3D" parent="NavigationRegion3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -12, 3.3, 110)
+mesh = SubResource("spheremesh_45")
+
+[node name="Trunk2" type="StaticBody3D" parent="NavigationRegion3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 18, 1.25, 80)
+
+[node name="Mesh" type="MeshInstance3D" parent="NavigationRegion3D/Trunk2"]
+mesh = SubResource("cylindermesh_43")
+
+[node name="Shape" type="CollisionShape3D" parent="NavigationRegion3D/Trunk2"]
+shape = SubResource("cylindershape3d_44")
+
+[node name="Leaves2" type="MeshInstance3D" parent="NavigationRegion3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 18, 3.3, 80)
+mesh = SubResource("spheremesh_45")
+
+[node name="Trunk3" type="StaticBody3D" parent="NavigationRegion3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 15, 1.25, 112)
+
+[node name="Mesh" type="MeshInstance3D" parent="NavigationRegion3D/Trunk3"]
+mesh = SubResource("cylindermesh_43")
+
+[node name="Shape" type="CollisionShape3D" parent="NavigationRegion3D/Trunk3"]
+shape = SubResource("cylindershape3d_44")
+
+[node name="Leaves3" type="MeshInstance3D" parent="NavigationRegion3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 15, 3.3, 112)
+mesh = SubResource("spheremesh_45")
+
+[node name="Trunk4" type="StaticBody3D" parent="NavigationRegion3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -20, 1.25, 97)
+
+[node name="Mesh" type="MeshInstance3D" parent="NavigationRegion3D/Trunk4"]
+mesh = SubResource("cylindermesh_43")
+
+[node name="Shape" type="CollisionShape3D" parent="NavigationRegion3D/Trunk4"]
+shape = SubResource("cylindershape3d_44")
+
+[node name="Leaves4" type="MeshInstance3D" parent="NavigationRegion3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -20, 3.3, 97)
+mesh = SubResource("spheremesh_45")
+
+[node name="Trunk5" type="StaticBody3D" parent="NavigationRegion3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 20, 1.25, 96)
+
+[node name="Mesh" type="MeshInstance3D" parent="NavigationRegion3D/Trunk5"]
+mesh = SubResource("cylindermesh_43")
+
+[node name="Shape" type="CollisionShape3D" parent="NavigationRegion3D/Trunk5"]
+shape = SubResource("cylindershape3d_44")
+
+[node name="Leaves5" type="MeshInstance3D" parent="NavigationRegion3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 20, 3.3, 96)
+mesh = SubResource("spheremesh_45")
+
+[node name="Trunk6" type="StaticBody3D" parent="NavigationRegion3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.25, 114)
+
+[node name="Mesh" type="MeshInstance3D" parent="NavigationRegion3D/Trunk6"]
+mesh = SubResource("cylindermesh_43")
+
+[node name="Shape" type="CollisionShape3D" parent="NavigationRegion3D/Trunk6"]
+shape = SubResource("cylindershape3d_44")
+
+[node name="Leaves6" type="MeshInstance3D" parent="NavigationRegion3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3.3, 114)
+mesh = SubResource("spheremesh_45")
+
+[node name="Trunk7" type="StaticBody3D" parent="NavigationRegion3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -9, 1.25, 84)
+
+[node name="Mesh" type="MeshInstance3D" parent="NavigationRegion3D/Trunk7"]
+mesh = SubResource("cylindermesh_43")
+
+[node name="Shape" type="CollisionShape3D" parent="NavigationRegion3D/Trunk7"]
+shape = SubResource("cylindershape3d_44")
+
+[node name="Leaves7" type="MeshInstance3D" parent="NavigationRegion3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -9, 3.3, 84)
+mesh = SubResource("spheremesh_45")
+
+[node name="BenchSeat" type="StaticBody3D" parent="NavigationRegion3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3, 0.25, 92)
+
+[node name="Mesh" type="MeshInstance3D" parent="NavigationRegion3D/BenchSeat"]
+mesh = SubResource("boxmesh_46")
+
+[node name="Shape" type="CollisionShape3D" parent="NavigationRegion3D/BenchSeat"]
+shape = SubResource("boxshape3d_47")
+
+[node name="BenchBack" type="StaticBody3D" parent="NavigationRegion3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3, 0.8, 92.3)
+
+[node name="Mesh" type="MeshInstance3D" parent="NavigationRegion3D/BenchBack"]
+mesh = SubResource("boxmesh_48")
+
+[node name="Shape" type="CollisionShape3D" parent="NavigationRegion3D/BenchBack"]
+shape = SubResource("boxshape3d_49")
+
+[node name="FountainBasin" type="StaticBody3D" parent="NavigationRegion3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 8, 0.3, 100)
+
+[node name="Mesh" type="MeshInstance3D" parent="NavigationRegion3D/FountainBasin"]
+mesh = SubResource("cylindermesh_50")
+
+[node name="Shape" type="CollisionShape3D" parent="NavigationRegion3D/FountainBasin"]
+shape = SubResource("cylindershape3d_51")
+
+[node name="FountainWater" type="MeshInstance3D" parent="NavigationRegion3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 8, 0.6, 100)
+mesh = SubResource("cylindermesh_52")
+
+[node name="FountainPillar" type="StaticBody3D" parent="NavigationRegion3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 8, 1.1, 100)
+
+[node name="Mesh" type="MeshInstance3D" parent="NavigationRegion3D/FountainPillar"]
+mesh = SubResource("cylindermesh_53")
+
+[node name="Shape" type="CollisionShape3D" parent="NavigationRegion3D/FountainPillar"]
+shape = SubResource("cylindershape3d_54")
+
+[node name="Decor" type="Node3D" parent="."]
+
+[node name="CasaDoor" type="MeshInstance3D" parent="Decor"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 7.97, 1.1, 39)
+mesh = SubResource("boxmesh_55")
+
+[node name="Markers" type="Node3D" parent="."]
+
+[node name="Bar" type="Marker3D" parent="Markers"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -2)
+script = ExtResource("2_marker")
+id = "bar"
+radius = 8.0
+
+[node name="Calle" type="Marker3D" parent="Markers"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 30)
+script = ExtResource("2_marker")
+id = "calle"
+radius = 5.0
+
+[node name="CasaLucia" type="Marker3D" parent="Markers"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6.5, 0, 39)
+script = ExtResource("2_marker")
+id = "casa_lucia"
+radius = 2.0
+
+[node name="Parque" type="Marker3D" parent="Markers"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 92)
+script = ExtResource("2_marker")
+id = "parque"
+radius = 6.0
