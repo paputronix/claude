@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=3]
+[gd_scene load_steps=13 format=3]
 
 [ext_resource type="Script" path="res://scripts/main.gd" id="1_main"]
 [ext_resource type="PackedScene" path="res://scenes/world/world.tscn" id="2_world"]
@@ -6,11 +6,13 @@
 [ext_resource type="PackedScene" path="res://scenes/npc.tscn" id="4_npc"]
 [ext_resource type="PackedScene" path="res://scenes/dialogue_ui.tscn" id="5_dialogue"]
 
-[ext_resource type="Texture2D" path="res://assets/characters/carla_skin.png" id="6_carla_skin"]
 [ext_resource type="Script" path="res://scripts/world/day_night.gd" id="7_day_night"]
 [ext_resource type="Script" path="res://scripts/audio/ambience.gd" id="8_ambience"]
+[ext_resource type="Shader" path="res://shaders/sky.gdshader" id="9_sky"]
+[ext_resource type="Script" path="res://scripts/visual/toon_styler.gd" id="10_toon_styler"]
 
-[sub_resource type="ProceduralSkyMaterial" id="sky_mat"]
+[sub_resource type="ShaderMaterial" id="sky_mat"]
+shader = ExtResource("9_sky")
 
 [sub_resource type="Sky" id="sky"]
 sky_material = SubResource("sky_mat")
@@ -21,7 +23,11 @@ sky = SubResource("sky")
 ambient_light_source = 2
 ambient_light_color = Color(0.55, 0.58, 0.65, 1)
 ambient_light_energy = 0.6
-tonemap_mode = 2
+tonemap_mode = 0
+fog_enabled = true
+fog_light_color = Color(0.7, 0.8, 0.92, 1)
+fog_density = 0.004
+fog_sky_affect = 0.0
 
 [node name="Main" type="Node3D"]
 script = ExtResource("1_main")
@@ -48,6 +54,9 @@ world_path = NodePath("../World")
 script = ExtResource("8_ambience")
 day_night_path = NodePath("../DayNight")
 
+[node name="ToonStyler" type="Node" parent="."]
+script = ExtResource("10_toon_styler")
+
 [node name="Player" parent="." instance=ExtResource("3_player")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 6)
 
@@ -60,7 +69,6 @@ npc_id = "carla"
 npc_name = "Carla"
 dialogue_path = "res://data/dialogues/carla.json"
 schedule_path = "res://data/schedules/carla.json"
-skin = ExtResource("6_carla_skin")
 
 [node name="DialogueUI" parent="." instance=ExtResource("5_dialogue")]
 

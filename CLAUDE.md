@@ -20,7 +20,7 @@ Proyecto personal. Prioridad absoluta: **pequeño, que funcione, y que se termin
 - `scenes/main.tscn` + `scripts/main.gd`: cablea señales NPC → DialogueUI → Player. Las piezas no se conocen entre sí.
 - `Player` (CharacterBody3D, capa física 2): tercera persona, `CameraPivot` (yaw) + `SpringArm3D` (pitch).
 - `Npc` (CharacterBody3D + NavigationAgent3D, grupos `npcs` + `interactable`): afinidad en `RelationshipState` por `npc_id`; `interact()` emite `conversation_requested`. Su hijo `Brain` (`scripts/npc/npc_brain.gd`) decide destino: horario JSON (`data/schedules/*.json`) o cita pendiente desde `inicio - date_lead_minutes`; teletransporte a la cita solo si no llega y el jugador no lo ve.
-- Visual: personajes Kenney (CC0) en `assets/characters/` (en sustitución por modelos anime VRoid en `assets/characters/anime/`, ver Hito 5); `character_animator.gd` cambia idle/run por velocidad. `Visual/Body` del NPC es el anillo de afinidad.
+- Visual (estilo anime): personajes VRoid en `assets/characters/anime/` (modelo por personaje en `data/characters.json`), animaciones retargeteadas al perfil humanoide (`anim_library.res`); `character_animator.gd` elige modelo, anima idle/walk/run/talk y ajusta colisión/cámara; `face_controller.gd` parpadeo, boca y expresiones por afinidad. `Visual/Body` del NPC es el anillo de afinidad. Todo el mundo y los personajes pasan por `ToonStyler` → `ToonMaterials.apply()` (cel shading + contorno). Para no convertir un material: `set_meta("keep_material", true)`.
 - `Interactor` (lo crea `player.gd`): detecta `interactable` cercanos y muestra "[E] ...". Contrato en `scripts/interaction/interactor.gd`.
 - `DialogueUI` (CanvasLayer): lee el JSON del NPC (`data/dialogues/*.json`) y aplica deltas de afinidad.
 - Formato diálogo (detalle en la cabecera de `dialogue_ui.gd`): `{ "start": id | [condiciones por afinidad], "nodes": { id: { "text", "options": [{ "text", "affinity", "reaction", "next": id|null }] } } }`.
@@ -49,7 +49,7 @@ Registrados en `project.godot`, en `scripts/autoload/` (+ `scenes/ui/` para los 
 - En tests no uses tipos `class_name` del juego (ver `test_base.gd`).
 - No esperes un número fijo de frames cuando dependas de la física: usa `wait_until()` / `talk_to()`.
 - Verificación visual: el proyecto usa el renderer **GL Compatibility** (portátiles modestos, export web). Con Xvfb (`xvfb-run -a godot --path . -s script.gd`) las capturas son fieles al juego real.
-- Iluminación: Compatibility en 4.3 no aplica tonemapping. Albedos realistas (suelos/césped ≤ 0.3–0.4) y luz ambiental de color neutro; un albedo alto bajo el sol sale quemado.
+- Iluminación: el tonemap está desactivado (`tonemap_mode = 0`; Compatibility sí aplica el filmic y lavaba los colores del toon). Albedos moderados (suelos/césped ≤ 0.3–0.4, pasteles con ganancia ~0.8); un albedo alto bajo el sol sale quemado.
 
 ## Trabajo en paralelo
 Rama de integración: `claude/ligar-simulator-prototype-jq95e7`. Cada feature en `claude/ligar-<feature>`, PR contra integración.
@@ -68,7 +68,7 @@ Contrato: `ToonMaterials.apply(root, role)` (role `character`/`world`) convierte
 2. ✅ "Un día en la vida": reloj, móvil, afinidad persistente, [E] Hablar, mapa con zonas, NPC con horario, quedada a hora y lugar (`tests/test_hito2.gd` cubre el bucle completo).
 3. ✅ "El tiempo es el recurso": repartidor → dinero → invitar en citas; segundo NPC (Carla); dos citas el mismo día con pillada física (`tests/test_hito3_*.gd`: día, noche y pillada).
 4. ✅ Ambiente: ciclo de día y noche, farolas, sonido ambiente y transeúntes.
-5. 🚧 Estilo anime: personajes VRoid, cel shading con contorno, ciudad moderna con paleta anime.
+5. ✅ Estilo anime: personajes VRoid animados y expresivos, cel shading con contorno, cielo anime, ciudad moderna con paleta y detalle de anime, ventanas encendidas de noche.
 
 ## Visión a futuro (NO implementar aún)
 - Estatus/ropa, regalos, ramas de relación a largo plazo, fin de día y guardado.

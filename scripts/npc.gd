@@ -16,9 +16,6 @@ signal affinity_changed(new_value: int, delta: int)
 @export_range(-100, 100) var starting_affinity := 0
 ## Horario (ver scripts/npc/npc_schedule.gd). Vacío = se queda quieto salvo citas.
 @export_file("*.json") var schedule_path := "res://data/schedules/lucia.json"
-## Obsoleto (Hito 5): sin efecto. El modelo sale de data/characters.json por `npc_id`.
-## Se conserva para que las escenas que aún lo asignan (main.tscn) carguen sin error.
-@export var skin: Texture2D
 ## Velocidad de paseo (m/s).
 @export var walk_speed := 3.0
 @export var turn_speed := 10.0
