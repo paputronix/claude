@@ -1,6 +1,10 @@
 {
   "start": [
     {
+      "context": "date",
+      "node": "cita"
+    },
+    {
       "min_affinity": 50,
       "node": "amigos"
     },
@@ -128,6 +132,48 @@
         },
         {
           "text": "Vale, vale, me voy.",
+          "next": null
+        }
+      ]
+    },
+    "cita": {
+      "text": "¡Has venido! Pensaba que me dejabas plantada con el postre pagado... y eso que ni hemos pedido. ¿Qué hacemos?",
+      "options": [
+        {
+          "text": "Te invito a un helado, que para sorpresas ya está mi puntualidad.",
+          "cost": 8,
+          "affinity": 10,
+          "reaction": "Jaja, de fresa. Y no te rías, es mi sabor serio.",
+          "next": "cita_final"
+        },
+        {
+          "text": "Cena improvisada en el italiano de la esquina. Yo invito.",
+          "cost": 15,
+          "affinity": 20,
+          "reaction": "¿Con pasta y todo? Me caes mejor por momentos. Cuidado, que me acostumbro.",
+          "next": "cita_final"
+        },
+        {
+          "text": "Un paseo y charla. Mi cartera hoy está en huelga.",
+          "affinity": 5,
+          "reaction": "Gratis y con compañía: la mejor oferta, aunque no se lo digas a tu cartera.",
+          "next": "cita_final"
+        }
+      ]
+    },
+    "cita_final": {
+      "text": "Oye, lo estoy pasando mejor de lo que esperaba. Y mira que esperaba bastante.",
+      "options": [
+        {
+          "text": "Es que contigo la media sube sola.",
+          "affinity": 5,
+          "reaction": "Qué malo eres... apúntame otra para la próxima.",
+          "next": null
+        },
+        {
+          "text": "Yo también. Aunque a mí me ha ayudado el helado.",
+          "affinity": 2,
+          "reaction": "Jaja, ya, ya. Anda, que nos vamos.",
           "next": null
         }
       ]
