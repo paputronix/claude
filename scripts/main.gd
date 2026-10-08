@@ -62,9 +62,8 @@ func _on_caught(date: Dictionary, witness_id: String) -> void:
 	if _queued_date == date:
 		_queued_date = {}
 	if _talking_to != null and (_talking_to.npc_id == date.npc_id or _talking_to.npc_id == witness_id):
-		# DialogueUI no expone un cierre público: `_end()` emite el fin de conversación
-		# normal (reloj, Brain y controles se reanudan).
-		_dialogue_ui._end()
+		# El fin de conversación normal reanuda reloj, Brain y controles.
+		_dialogue_ui.close()
 
 
 func _find_npc(npc_id: String) -> Npc:
