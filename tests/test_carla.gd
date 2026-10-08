@@ -1,6 +1,6 @@
 extends "res://tests/test_base.gd"
 ## Carla, segundo NPC: coexiste con Lucía, skin propia, diálogo y afinidad
-## independientes, horario terraza → parque y robustez si faltan locations.
+## independientes, horario terraza → fuente del parque → casa y robustez si faltan locations.
 
 const CARLA_SKIN := "res://assets/characters/carla_skin.png"
 
@@ -50,9 +50,9 @@ func run_test() -> void:
 
 	# --- Horario sin locations: quieta y sin errores ---
 	check(brain.schedule.location_at(18 * 60) == "terraza", "18:00 terraza")
-	check(brain.schedule.location_at(20 * 60 + 44) == "terraza" and brain.schedule.location_at(20 * 60 + 45) == "parque", "20:45 parque")
-	check(brain.schedule.location_at(21 * 60 + 20) == "casa_carla", "21:20 casa_carla")
-	check(brain.schedule.date_lead_minutes == 40, "date_lead_minutes 40")
+	check(brain.schedule.location_at(20 * 60 + 14) == "terraza" and brain.schedule.location_at(20 * 60 + 15) == "parque_fuente", "20:15 parque_fuente")
+	check(brain.schedule.location_at(21 * 60 + 39) == "parque_fuente" and brain.schedule.location_at(21 * 60 + 40) == "casa_carla", "21:40 casa_carla")
+	check(brain.schedule.date_lead_minutes == 20, "date_lead_minutes 20")
 	# El mapa ya tiene terraza y casa_carla: se desregistran para simular que faltan.
 	var real_markers := {}
 	for id in ["terraza", "casa_carla"]:
@@ -60,7 +60,7 @@ func run_test() -> void:
 			real_markers[id] = locations._locations[id]
 			locations.unregister(id)
 	var pos0: Vector3 = carla.global_position
-	for t in [[18, 0], [21, 20]]:
+	for t in [[18, 0], [21, 40]]:
 		clock.set_time(t[0], t[1])
 		await wait_frames(30)
 		check(carla.global_position.distance_to(pos0) < 0.1, "%02d:%02d con el destino sin registrar Carla se queda quieta" % t)
@@ -91,7 +91,7 @@ func run_test() -> void:
 		box.get_child(box.get_child_count() - 1).pressed.emit()
 		await process_frame
 
-	# --- Horario con locations temporales: terraza → parque a las 20:45 ---
+	# --- Horario con locations temporales: terraza → fuente del parque a las 20:15 ---
 	clock.set_time(18, 0)
 	sched.clear()
 	var terraza := add_temp_location("terraza", Vector3(5, 0, 15), 3.0)
@@ -101,9 +101,9 @@ func run_test() -> void:
 	await wait_frames(5)
 	check(brain.destination == "terraza", "18:01 destino terraza (%s)" % brain.destination)
 	check(locations.is_at("terraza", carla.global_position), "Carla en la terraza")
-	clock.set_time(20, 45)
-	check(brain.destination == "parque", "20:45 destino parque (%s)" % brain.destination)
-	check(locations.has("parque"), "el parque real existe")
+	clock.set_time(20, 15)
+	check(brain.destination == "parque_fuente", "20:15 destino parque_fuente (%s)" % brain.destination)
+	check(locations.has("parque_fuente"), "la fuente del parque existe")
 	await wait_until(func(): return Vector2(carla.velocity.x, carla.velocity.z).length() > 1.0)
 	check(Vector2(carla.velocity.x, carla.velocity.z).length() > 1.0, "sale hacia el parque")
 	terraza.queue_free()

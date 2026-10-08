@@ -102,13 +102,24 @@ func run_test() -> void:
 	check(frames >= 0, "llega al parque")
 	check(_clock.minutes_of_day < 21 * 60, "llega antes de las 21:00 (%s)" % _clock.format_time())
 
-	# --- Integración: jugador en el parque → a las 21:00 éxito ---
+	# --- Integración: jugador en el parque → a las 21:00 empieza; se queda toda la cita → éxito ---
 	_place(player, "parque")
 	_resolved.clear()
 	while _clock.minutes_of_day < 21 * 60:
 		await wait_frames(2)
 		check(brain.destination == "parque" and _locations.is_at("parque", npc.global_position),
 			"espera en el parque (%s)" % _clock.format_time())
+		_clock.advance(1.0)
+	check(sched.get_dates()[0].status == "in_progress", "a las 21:00 la cita empieza (%s)" % sched.get_dates()[0].status)
+	var ui: Node = main.get_node("DialogueUI")
+	var box: Node = ui.get_node("%OptionsBox")
+	while ui.is_active() and box.get_child_count() > 0:
+		box.get_child(box.get_child_count() - 1).pressed.emit()  # diálogo de cita: opción gratis
+	var end: int = 21 * 60 + sched.DATE_DURATION_MINUTES
+	while _clock.minutes_of_day < end:
+		await wait_frames(2)
+		check(brain.destination == "parque" and _locations.is_at("parque", npc.global_position),
+			"se queda en el parque durante la cita (%s)" % _clock.format_time())
 		_clock.advance(1.0)
 	check(_resolved == [["success", true]], "la cita se resuelve con éxito: %s" % [_resolved])
 
