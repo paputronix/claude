@@ -11,3 +11,5 @@ Ficheros usados (sin modificar):
 
 Derivados:
 - `carla_skin.png` — skin de Carla: `skaterFemaleA.png` recoloreada (ropa, mechón y zapatillas).
+- `ped_male_green.png`, `ped_male_yellow.png` — skins de peatones: `skaterMaleA.png` recoloreada (ropa, zapatillas y pelo; piel intacta).
+- `ped_female_blue.png`, `ped_female_green.png` — skins de peatones: `skaterFemaleA.png` recoloreada (ropa, zapatillas y pelo; piel intacta).

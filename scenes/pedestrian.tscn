@@ -1,0 +1,34 @@
+[gd_scene load_steps=7 format=3]
+
+[ext_resource type="Script" path="res://scripts/pedestrians/pedestrian.gd" id="1_ped"]
+[ext_resource type="PackedScene" path="res://assets/characters/characterMedium.fbx" id="2_model"]
+[ext_resource type="Script" path="res://scripts/visual/character_animator.gd" id="3_animator"]
+[ext_resource type="Texture2D" path="res://assets/characters/skaterMaleA.png" id="4_skin"]
+[ext_resource type="PackedScene" path="res://assets/characters/idle.fbx" id="5_idle"]
+[ext_resource type="PackedScene" path="res://assets/characters/run.fbx" id="6_run"]
+
+[sub_resource type="CapsuleShape3D" id="shape_body"]
+radius = 0.4
+height = 1.8
+
+[node name="Pedestrian" type="CharacterBody3D" groups=["pedestrians"]]
+collision_layer = 0
+collision_mask = 1
+script = ExtResource("1_ped")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.9, 0)
+shape = SubResource("shape_body")
+
+[node name="Visual" type="Node3D" parent="."]
+
+[node name="Model" parent="Visual" instance=ExtResource("2_model")]
+transform = Transform3D(-0.48, 0, 0, 0, 0.48, 0, 0, 0, -0.48, 0, 0, 0)
+script = ExtResource("3_animator")
+skin = ExtResource("4_skin")
+idle_source = ExtResource("5_idle")
+run_source = ExtResource("6_run")
+
+[node name="NavigationAgent3D" type="NavigationAgent3D" parent="."]
+radius = 0.5
+height = 1.75
