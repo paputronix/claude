@@ -13,3 +13,12 @@ signal dialogue_action(npc_id: String, action: Dictionary)
 ## Emitidas por DateScheduler. `date` = {npc_id, location_id, minute, status}.
 signal date_scheduled(date: Dictionary)
 signal date_resolved(date: Dictionary, success: bool)
+
+## Emitida por DateScheduler cuando jugador y NPC coinciden en el sitio: empieza la cita.
+signal date_started(date: Dictionary)
+## Emitida cuando otro NPC interesado te ve en plena cita. `witness_id` = npc_id del testigo.
+signal caught(date: Dictionary, witness_id: String)
+
+## Emitidas por JobBoard. `job` = ver job_board.gd.
+signal job_offered(job: Dictionary)
+signal job_completed(job: Dictionary, on_time: bool, pay: int)

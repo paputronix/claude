@@ -8,3 +8,6 @@ Ficheros usados (sin modificar):
 - `idle.fbx`, `run.fbx` — animaciones (mismo esqueleto).
 - `skaterMaleA.png` — skin del jugador.
 - `skaterFemaleA.png` — skin de Lucía.
+
+Derivados:
+- `carla_skin.png` — skin de Carla: `skaterFemaleA.png` recoloreada (ropa, mechón y zapatillas).

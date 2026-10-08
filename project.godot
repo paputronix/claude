@@ -23,6 +23,8 @@ Locations="*res://scripts/autoload/locations.gd"
 DateScheduler="*res://scripts/autoload/date_scheduler.gd"
 Phone="*res://scenes/ui/phone.tscn"
 ClockHud="*res://scenes/ui/clock_hud.tscn"
+Wallet="*res://scripts/autoload/wallet.gd"
+JobBoard="*res://scripts/autoload/job_board.gd"
 
 [display]
 
