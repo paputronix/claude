@@ -31,16 +31,16 @@ Registrados en `project.godot`, en `scripts/autoload/` (+ `scenes/ui/` para los 
 - `GameClock`: `minutes_of_day`, `day`, `time_scale`, `paused`, `advance()`, `set_time()`, `format_time()`, `parse_time()`, señales `minute_changed`, `hour_changed`, `day_changed`. Se pausa solo durante conversaciones. Debug: F1/F2/F3 = x1/x10/x60.
 - `RelationshipState`: `get_affinity/set_affinity/change_affinity(npc_id, ...)`, señal `affinity_changed`.
 - `Locations`: `register(id, node)`, `get_position(id)`, `is_at(id, pos)`, `ids()`.
-- `DateScheduler`: `schedule()`, `get_pending()`, `get_dates()`. Cita = `{npc_id, location_id, minute, day, status}`, status `pending|success|stood_up|npc_no_show`. Crea citas desde `dialogue_action.schedule_date`, avisa al móvil, ventana de llegada 30 min.
+- `DateScheduler`: `schedule()`, `get_pending()` (pendientes **y en curso**), `get_in_progress()`, `get_dates()`. Cita = `{npc_id, location_id, minute, day, status}`, status `pending|in_progress|success|cut_short|caught|cancelled|stood_up|npc_no_show`. Ventana de llegada 30 min → `in_progress` (`date_started`, `main.gd` abre el diálogo con contexto `date`) → aguantar 40 min cerca = `success`, irse = `cut_short`. Pillada: otro NPC interesado a < 12 m con línea de visión → `caught` (−30 ambas, cita del testigo `cancelled`).
 - `Phone` (escena): `notify(title, body)`, `messages`, `open/close/toggle()`, señal `notified`. Tab abre el móvil.
 - `ClockHud` (escena): HUD del reloj.
 - `Wallet`: `money` (empieza en 20), `earn(amount, reason)`, `spend(amount, reason) -> bool`, `can_afford()`, señal `money_changed(value, delta, reason)`.
 - `JobBoard`: `get_active()`. Encargo = `{id, pickup, dropoff, deadline, day, pay, status}`, status `offered|picked_up|delivered|late|expired`.
 - `EventBus` (Hito 3): `date_started(date)`, `caught(date, witness_id)`, `job_offered(job)`, `job_completed(job, on_time, pay)`.
-- `DialogueUI.start(npc, context := "")`: condición `"context": "date"` en `start`; opciones con `"cost": N` (€).
+- `DialogueUI.start(npc, context := "")` / `close()`: condición `"context": "date"` en `start`; opciones con `"cost": N` (€).
 
 ## Locations
-Existentes: `bar`, `calle`, `casa_lucia`, `parque`. Reservados (Hito 3, los crea `ligar-map2`): `kiosko`, `portal_a`, `portal_b`, `portal_c`, `casa_carla`, `terraza`. En tests, si el sitio aún no existe: `add_temp_location(id, pos, radius)`.
+`bar`, `calle`, `casa_lucia`, `parque`, `parque_fuente`, `kiosko`, `portal_a`, `portal_b`, `portal_c`, `casa_carla`, `terraza`. En tests, si el sitio aún no existe: `add_temp_location(id, pos, radius)`.
 
 ## Tests
 - `tests/run.sh [patrón]`: Godot 4.3 headless (se descarga solo a `~/.cache`). Debe quedar en verde antes de cualquier PR.

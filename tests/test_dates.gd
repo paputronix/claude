@@ -1,5 +1,6 @@
 extends "res://tests/test_base.gd"
 ## Quedadas: creación desde el diálogo, avisos, ventana de llegada y resolución.
+## (La cita en curso, cortarla y las pilladas: test_dates_v2.gd.)
 
 var _resolved: Array = []
 
@@ -22,6 +23,13 @@ func _propose(ui: Node, npc: Node) -> void:
 	chosen.pressed.emit()
 	# Reacción -> botón "Adiós" que cierra la conversación (y reanuda el reloj).
 	(ui.get_node("%OptionsBox").get_child(0) as Button).pressed.emit()
+
+
+## Cierra la conversación abierta eligiendo siempre la última opción (en la cita, gratis).
+func _finish_dialogue(ui: Node) -> void:
+	var box: Node = ui.get_node("%OptionsBox")
+	while ui.is_active() and box.get_child_count() > 0:
+		box.get_child(box.get_child_count() - 1).pressed.emit()
 
 
 func _last_body(phone: Node) -> String:
@@ -95,8 +103,18 @@ func run_test() -> void:
 	_move(player, "parque")
 	_move(npc, "parque")
 	clock.advance(1.0)
+	# Coincidir en el sitio ya no resuelve: empieza la cita (y su diálogo).
+	check(sched.get_dates()[0].status == "in_progress", "en curso: %s" % sched.get_dates()[0].status)
+	check(ui.is_active(), "se abre el diálogo de la cita")
+	_finish_dialogue(ui)
+	var after_dialogue: int = rs.get_affinity("lucia")
+	check(sched.get_pending().size() == 1, "en curso cuenta como sin resolver")
+	clock.advance(float(sched.DATE_DURATION_MINUTES - 1))
+	check(sched.get_dates()[0].status == "in_progress", "sigue en curso hasta el final")
+	check(_resolved.is_empty(), "sin resolver mientras dura: %s" % [_resolved])
+	clock.advance(1.0)
 	check(sched.get_dates()[0].status == "success", "éxito: %s" % sched.get_dates()[0].status)
-	check(rs.get_affinity("lucia") == 45, "éxito: +15 (%d)" % rs.get_affinity("lucia"))
+	check(rs.get_affinity("lucia") == after_dialogue + 15, "éxito: +15 (%d)" % rs.get_affinity("lucia"))
 	check(_resolved == [["success", true]], "date_resolved(true): %s" % [_resolved])
 	check(sched.get_pending().is_empty(), "ya no está pendiente")
 

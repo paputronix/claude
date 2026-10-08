@@ -133,6 +133,12 @@ func _choose(option: Dictionary) -> void:
 	_add_option("Continuar" if next != null else "Adiós", _show_node.bind(next))
 
 
+## Cierra la conversación desde fuera (p. ej. una pillada). Emite el fin normal.
+func close() -> void:
+	if is_active():
+		_end()
+
+
 func _end() -> void:
 	var npc := _npc
 	_npc.affinity_changed.disconnect(_on_affinity_changed)

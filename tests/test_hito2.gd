@@ -1,8 +1,10 @@
 extends "res://tests/test_base.gd"
 ## Bucle completo del Hito 2, de principio a fin y sin atajos internos:
 ## hablar con [E] → proponer la cita en el diálogo → aviso en el móvil →
-## Lucía deja el bar y camina sola al parque → el jugador llega → cita con éxito.
-## El reloj avanza 1 min de juego por cada 60 physics frames (≈ time_scale 1).
+## Lucía deja el bar y camina sola al parque → el jugador llega → a las 21:00 empieza la
+## cita y se abre su conversación (invitar a un helado) → aguantar la cita → éxito.
+## El reloj avanza 1 min de juego por cada 60 physics frames (≈ time_scale 1); durante la
+## cita en curso, quieta, a 30 frames/min.
 
 
 func run_test() -> void:
@@ -10,6 +12,7 @@ func run_test() -> void:
 	var rel := autoload("RelationshipState")
 	var phone := autoload("Phone")
 	var dates := autoload("DateScheduler")
+	var wallet := autoload("Wallet")
 	clock.time_scale = 0.0
 	clock.set_time(18, 0)
 	rel.set_affinity("lucia", 25)  # "conocidos": ya sale la opción de quedar
@@ -46,7 +49,7 @@ func run_test() -> void:
 	var reminded := false
 	var left_bar_at := -1
 	var arrived_at := -1
-	while clock.minutes_of_day < 21 * 60 + 30 and dates.get_pending().size() > 0:
+	while clock.minutes_of_day < 21 * 60 + 30 and dates.get_dates()[0].status == "pending":
 		await wait_frames(60)
 		clock.advance(1.0)
 		if not reminded and phone.messages.back().body.begins_with("¿Sigue en pie"):
@@ -60,10 +63,34 @@ func run_test() -> void:
 	check(left_bar_at > 0, "Lucía sale del bar por su cuenta")
 	check(arrived_at > 0 and arrived_at <= 21 * 60, "Lucía llega al parque antes de las 21:00 (%d)" % arrived_at)
 
-	# 4. Resolución.
+	# 4. A las 21:00 empieza la cita y se abre sola su conversación (nodo "cita").
 	var date: Dictionary = dates.get_dates()[0]
+	check(date.status == "in_progress", "a las 21:00 la cita está en curso (status %s)" % date.status)
+	check(clock.minutes_of_day == 21 * 60, "empieza a las 21:00 (%s)" % clock.format_time())
+	check(ui.is_active(), "se abre la conversación de la cita")
+	var cita_text: String = npc.load_dialogue().nodes.cita.text
+	check(ui.get_node("%TextLabel").text == cita_text, "texto del nodo cita")
+	check(not clock.is_running(), "el reloj se para durante la conversación")
+	var money_before: int = wallet.money
+	check(_press_option(options, "helado"), "la cita ofrece invitar a un helado")
+	check(wallet.money == money_before - 8, "invitar cobra 8 € (%d)" % wallet.money)
+	while ui.is_active():
+		options.get_child(0).pressed.emit()  # Continuar / primera opción de cita_final / Adiós
+	var after_dialogue: int = rel.get_affinity("lucia")
+	check(after_dialogue > affinity_before, "lo elegido en la cita sube la afinidad (%d)" % after_dialogue)
+
+	# 5. La cita sigue en curso: el jugador se queda cerca hasta el final. Aquí nadie va a
+	# ningún sitio: a x2 (30 frames/min) para no rozar el timeout de 120 s de run.sh.
+	var end: int = 21 * 60 + dates.DATE_DURATION_MINUTES
+	while clock.minutes_of_day < end and date.status == "in_progress":
+		await wait_frames(30)
+		check(locations.is_at("parque", npc.global_position), "Lucía se queda en el parque (%s)" % clock.format_time())
+		clock.advance(1.0)
+
+	# 6. Resolución.
 	check(date.status == "success", "la cita sale bien (status %s)" % date.status)
-	check(rel.get_affinity("lucia") == affinity_before + 15, "la cita sube la afinidad +15")
+	check(clock.minutes_of_day == end, "termina a las %s" % clock.format_time())
+	check(rel.get_affinity("lucia") == after_dialogue + 15, "la cita sube la afinidad +15")
 	check(phone.messages.back().body.begins_with("Me lo he pasado genial"), "mensaje de despedida en el móvil")
 	check(npc.get_node("Brain").destination == "casa_lucia", "tras la cita vuelve a su horario (casa)")
 	print("Lucía sale del bar a las %02d:%02d y llega al parque a las %02d:%02d" % [
