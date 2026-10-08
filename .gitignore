@@ -2,3 +2,6 @@
 .godot/
 export_presets.cfg
 *.tmp
+
+# Worktrees de subagentes de Claude Code
+.claude/worktrees/
