@@ -1,7 +1,9 @@
 class_name Npc
-extends StaticBody3D
+extends CharacterBody3D
 ## NPC con el que se puede hablar. La afinidad vive en `RelationshipState`
 ## (por `npc_id`) y pide una conversación cuando el jugador lo interactúa con [E] (contrato Interactable).
+## Vive según su horario: el hijo `Brain` (scripts/npc/npc_brain.gd) decide adónde ir y
+## fija `move_direction`; aquí solo se aplica gravedad, velocidad y giro del `Visual`.
 
 signal conversation_requested(npc: Npc)
 signal affinity_changed(new_value: int, delta: int)
@@ -12,6 +14,14 @@ signal affinity_changed(new_value: int, delta: int)
 @export_file("*.json") var dialogue_path := "res://data/dialogues/lucia.json"
 ## Afinidad inicial: solo se aplica si RelationshipState aún no conoce a este NPC.
 @export_range(-100, 100) var starting_affinity := 0
+## Horario (ver scripts/npc/npc_schedule.gd). Vacío = se queda quieto salvo citas.
+@export_file("*.json") var schedule_path := "res://data/schedules/lucia.json"
+## Velocidad de paseo (m/s).
+@export var walk_speed := 3.0
+@export var turn_speed := 10.0
+
+## Dirección horizontal de marcha (normalizada o ZERO). La fija el Brain.
+var move_direction := Vector3.ZERO
 
 ## Solo lectura: el valor real está en RelationshipState.
 var affinity: int:
@@ -19,8 +29,8 @@ var affinity: int:
 		return RelationshipState.get_affinity(npc_id)
 
 var _body_material: StandardMaterial3D
+var _gravity: float = ProjectSettings.get_setting("physics/3d/default_gravity")
 
-## TODO: eliminar TalkArea de npc.tscn (sin uso; la conversación se dispara con [E]).
 @onready var _name_label: Label3D = $NameLabel
 @onready var _visual: Node3D = $Visual
 @onready var _body_mesh: MeshInstance3D = $Visual/Body
@@ -35,6 +45,18 @@ func _ready() -> void:
 		RelationshipState.set_affinity(npc_id, starting_affinity)
 	RelationshipState.affinity_changed.connect(_on_state_affinity_changed)
 	_refresh_visuals()
+
+
+func _physics_process(delta: float) -> void:
+	if not is_on_floor():
+		velocity.y -= _gravity * delta
+	velocity.x = move_direction.x * walk_speed
+	velocity.z = move_direction.z * walk_speed
+	if move_direction != Vector3.ZERO:
+		# Global: la raíz del NPC puede venir rotada en la escena.
+		var target_yaw := atan2(-move_direction.x, -move_direction.z)
+		_visual.global_rotation.y = lerp_angle(_visual.global_rotation.y, target_yaw, turn_speed * delta)
+	move_and_slide()
 
 
 func change_affinity(delta: int) -> void:

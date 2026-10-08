@@ -41,13 +41,44 @@ func wait_frames(count: int) -> void:
 
 
 ## Simula pulsar y soltar una action (p. ej. "interact") y espera un par de frames.
+## Simula pulsar y soltar una action. Espera frames de proceso (no de física):
+## la entrada se despacha por iteración del bucle principal, y bajo carga puede
+## haber varios pasos de física en una misma iteración.
 func press_action(action: String) -> void:
 	for pressed in [true, false]:
 		var ev := InputEventAction.new()
 		ev.action = action
 		ev.pressed = pressed
 		Input.parse_input_event(ev)
-		await wait_frames(2)
+		for i in 2:
+			await process_frame
+
+
+## Espera (en physics frames) hasta que `condition` sea true. Devuelve si se cumplió.
+## Úsalo en vez de un número fijo de frames cuando dependas de la física.
+func wait_until(condition: Callable, max_frames := 120) -> bool:
+	for i in max_frames:
+		if condition.call():
+			return true
+		await physics_frame
+	return condition.call()
+
+
+## Interactor del jugador (lo crea player.gd en _ready).
+func interactor_of(player: Node) -> Node:
+	for child in player.get_children():
+		if child.has_method("get_target"):
+			return child
+	return null
+
+
+## Acerca al jugador a `target`, espera a que el Interactor lo detecte y pulsa E.
+func talk_to(player: Node3D, target: Node3D, offset := Vector3(0, 0, 1.2)) -> void:
+	player.global_position = target.global_position + offset
+	var interactor := interactor_of(player)
+	var ok := await wait_until(func(): return interactor != null and interactor.get_target() == target)
+	check(ok, "el Interactor detecta a %s" % target.name)
+	await press_action("interact")
 
 
 func load_main() -> Node:

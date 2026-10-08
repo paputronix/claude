@@ -16,7 +16,8 @@ func run_test() -> void:
 	check(player.global_position.z < z0 - 0.5, "el jugador avanza con move_forward")
 
 	player.global_position = npc.global_position + Vector3(0, 0, 1.2)
-	await wait_frames(5)
+	var interactor := interactor_of(player)
+	await wait_until(func(): return interactor.get_target() == npc)
 	check(not ui.is_active(), "acercarse sin pulsar E no abre la conversación")
 	await press_action("interact")
 	check(ui.is_active(), "pulsar E cerca del NPC abre la conversación")
