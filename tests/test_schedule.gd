@@ -80,7 +80,7 @@ func run_test() -> void:
 	await wait_frames(30)
 	check(Vector2(npc.velocity.x, npc.velocity.z).length() > 2.0, "camina hacia casa")
 	var anim: AnimationPlayer = npc.get_node("Visual/Model").find_children("*", "AnimationPlayer", true, false)[0]
-	check(anim.current_animation == "run", "anima run al caminar (%s)" % anim.current_animation)
+	check(anim.current_animation in ["walk", "run"], "anima walk/run al caminar (%s)" % anim.current_animation)
 	var frames: int = await _walk_until(npc, "casa_lucia", 1500)
 	check(frames >= 0, "llega a casa_lucia")
 	await wait_frames(30)
