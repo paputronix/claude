@@ -1,0 +1,7 @@
+{
+	"offers": [
+		{"id": "kiosko_b", "offer_at": "18:10", "pickup": "kiosko", "dropoff": "portal_b", "deadline": "19:00", "pay": 12},
+		{"id": "kiosko_c", "offer_at": "19:30", "pickup": "kiosko", "dropoff": "portal_c", "deadline": "20:15", "pay": 15},
+		{"id": "kiosko_a", "offer_at": "22:40", "pickup": "kiosko", "dropoff": "portal_a", "deadline": "23:30", "pay": 18}
+	]
+}

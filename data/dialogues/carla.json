@@ -1,0 +1,171 @@
+{
+  "start": [
+    {
+      "context": "date",
+      "node": "cita"
+    },
+    {
+      "min_affinity": 50,
+      "node": "amigos"
+    },
+    {
+      "min_affinity": 20,
+      "node": "conocidos"
+    },
+    {
+      "max_affinity": -20,
+      "node": "enfadada"
+    },
+    {
+      "node": "saludo"
+    }
+  ],
+  "nodes": {
+    "saludo": {
+      "text": "*baja la cámara* Llevas diez minutos pasando por delante de mi objetivo con cara de estar ensayando algo. Suéltalo ya.",
+      "options": [
+        {
+          "text": "Ensayaba cómo decirte que tienes una cámara preciosa.",
+          "affinity": 5,
+          "reaction": "La cámara, claro. Qué humilde. Sigue, que me estoy riendo.",
+          "next": "charla"
+        },
+        {
+          "text": "Perdona, no quería salir en tu foto. Aunque tú sí saldrías muy bien en la mía.",
+          "affinity": 12,
+          "reaction": "Ja. Eso es malísimo. Lo apunto para el álbum de 'frases que dan pena'.",
+          "next": "charla"
+        },
+        {
+          "text": "Qué borde. ¿Siempre eres así?",
+          "affinity": -15,
+          "reaction": "Solo con los que preguntan lo obvio. Adiós.",
+          "next": null
+        }
+      ]
+    },
+    "charla": {
+      "text": "Hago fotos de gente en la calle. Dime, ¿qué cara pondrías si te hiciera una ahora mismo?",
+      "options": [
+        {
+          "text": "La de alguien que acaba de conocer a la fotógrafa más guapa del barrio.",
+          "affinity": 8,
+          "reaction": "Menuda cara de pardillo. Me quedo con la foto igualmente.",
+          "next": null
+        },
+        {
+          "text": "Dispara y lo averiguamos los dos.",
+          "affinity": 15,
+          "reaction": "*clic* Mmm. Sales raro, pero sales sincero. Eso ya es más de lo que consigo de la mayoría.",
+          "next": null
+        },
+        {
+          "text": "Prefiero que no. Soy muy fotofóbico.",
+          "affinity": -10,
+          "reaction": "Qué pena, la cámara y yo nos aburrimos juntas.",
+          "next": null
+        }
+      ]
+    },
+    "conocidos": {
+      "text": "Mira quién ha vuelto. Te has ganado una segunda foto, no sé si por constancia o por pena.",
+      "options": [
+        {
+          "text": "Por constancia. Soy como un revelado: tardo, pero merezco la pena.",
+          "affinity": 6,
+          "reaction": "Eso ha sido casi bueno. Casi. No te lo creas.",
+          "next": null
+        },
+        {
+          "text": "¿Te apetece que quedemos esta noche a las 22:00 en el bar?",
+          "affinity": 5,
+          "reaction": "¿Una cita? Qué valor. Vale, pero llega puntual o te retrato esperando solo en la barra.",
+          "action": {
+            "schedule_date": {
+              "location": "bar",
+              "time": "22:00"
+            }
+          },
+          "next": null
+        },
+        {
+          "text": "Solo saludaba. Sigue con lo tuyo.",
+          "next": null
+        }
+      ]
+    },
+    "amigos": {
+      "text": "Ya estaba tardando mi modelo favorito. Tengo un carrete entero con tu cara de despistado, que lo sepas.",
+      "options": [
+        {
+          "text": "Espero que en alguna salga favorecido.",
+          "affinity": 5,
+          "reaction": "En una. Pero no te diré cuál, para que sigas viniendo.",
+          "next": null
+        },
+        {
+          "text": "Esta noche a las 22:00 en el bar, y esta vez pongo la cara de despistado con motivo.",
+          "affinity": 5,
+          "reaction": "Trato hecho. Llevo la cámara... y las ganas de pasármelo bien. Solo una de las dos.",
+          "action": {
+            "schedule_date": {
+              "location": "bar",
+              "time": "22:00"
+            }
+          },
+          "next": null
+        },
+        {
+          "text": "Luego te veo, que tengo cosas que hacer.",
+          "next": null
+        }
+      ]
+    },
+    "enfadada": {
+      "text": "Ah, el listillo. Lo que tengas que decir, que sea corto: estoy trabajando.",
+      "options": [
+        {
+          "text": "Tienes razón, me pasé. Lo siento de verdad.",
+          "affinity": 10,
+          "reaction": "Mm. Esta vez no hay chiste, así que cuela. Pero no se te ocurra repetirlo.",
+          "next": null
+        },
+        {
+          "text": "Pues nada, me voy.",
+          "next": null
+        }
+      ]
+    },
+    "cita": {
+      "text": "Has venido. Pensaba que me tocaba retratar una silla vacía. Bueno, ¿qué hacemos? Y ojo: aquí se invita.",
+      "options": [
+        {
+          "text": "Dos copas de lo bueno, que hoy brindamos por tus fotos.",
+          "cost": 12,
+          "affinity": 20,
+          "reaction": "Mira qué detalle. Vale, hoy te dejo que seas el protagonista del encuadre.",
+          "next": null
+        },
+        {
+          "text": "Una ronda de algo rico para picar y quedarnos un rato.",
+          "cost": 6,
+          "affinity": 10,
+          "reaction": "Modesto, pero con intención. Me gusta cómo trabajas.",
+          "next": null
+        },
+        {
+          "text": "Cuéntame tu mejor foto y yo pongo la atención gratis.",
+          "affinity": 5,
+          "reaction": "La atención gratis... si sabes escuchar, es lo único que vale la pena. Te lo concedo.",
+          "next": null
+        },
+        {
+          "text": "Invitas tú, ¿no? Eres la de la cámara cara.",
+          "affinity": -10,
+          "reaction": "Qué morro. Anda, pues enséñame la cartera antes de seguir con esto.",
+          "next": null
+        }
+      ]
+    }
+  }
+}

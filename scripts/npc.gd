@@ -16,6 +16,8 @@ signal affinity_changed(new_value: int, delta: int)
 @export_range(-100, 100) var starting_affinity := 0
 ## Horario (ver scripts/npc/npc_schedule.gd). Vacío = se queda quieto salvo citas.
 @export_file("*.json") var schedule_path := "res://data/schedules/lucia.json"
+## Skin propia (textura del modelo). Vacío = la de la escena.
+@export var skin: Texture2D
 ## Velocidad de paseo (m/s).
 @export var walk_speed := 3.0
 @export var turn_speed := 10.0
@@ -41,6 +43,11 @@ func _ready() -> void:
 	# Material propio por instancia: si hay varios NPCs, cada uno se tiñe por separado.
 	_body_material = _body_mesh.mesh.material.duplicate()
 	_body_mesh.material_override = _body_material
+	if skin != null:
+		# El animador (hijo) ya aplicó su skin en su _ready: se sustituye aquí.
+		var model := _visual.get_node_or_null("Model")
+		if model != null and model.has_method("set_skin"):
+			model.set_skin(skin)
 	if not RelationshipState.has_npc(npc_id):
 		RelationshipState.set_affinity(npc_id, starting_affinity)
 	RelationshipState.affinity_changed.connect(_on_state_affinity_changed)

@@ -48,6 +48,12 @@ func _play(anim_name: String, speed_scale := 1.0) -> void:
 		_anim.play(anim_name, blend_time)
 
 
+## Cambia la skin en caliente (p. ej. por instancia, desde Npc._ready).
+func set_skin(texture: Texture2D) -> void:
+	skin = texture
+	_apply_skin()
+
+
 func _apply_skin() -> void:
 	if skin == null:
 		return
