@@ -1,16 +1,18 @@
 extends "res://tests/test_base.gd"
-## Carla, segundo NPC: coexiste con Lucía, skin propia, diálogo y afinidad
+## Carla, segundo NPC: coexiste con Lucía, modelo anime propio, diálogo y afinidad
 ## independientes, horario terraza → fuente del parque → casa y robustez si faltan locations.
 
-const CARLA_SKIN := "res://assets/characters/carla_skin.png"
+const CARLA_MODEL := "res://assets/characters/anime/carla.glb"
+const LUCIA_MODEL := "res://assets/characters/anime/lucia.glb"
 
 
-func _skin_paths(npc: Node) -> Array:
-	var paths: Array = []
-	for mesh in npc.get_node("Visual/Model").find_children("*", "MeshInstance3D", true, false):
-		var material := (mesh as MeshInstance3D).material_override as StandardMaterial3D
-		paths.append(material.albedo_texture.resource_path if material != null and material.albedo_texture != null else "")
-	return paths
+## glb instanciado bajo Visual/Model y número de mallas que trae.
+func _model_info(npc: Node) -> Array:
+	var model: Node = npc.get_node("Visual/Model")
+	if model.get_child_count() == 0:
+		return ["", 0]
+	var character: Node = model.get_child(0)
+	return [character.scene_file_path, character.find_children("*", "MeshInstance3D", true, false).size()]
 
 
 func _dialogue_texts(npc: Node, ids: Array) -> Array:
@@ -42,11 +44,16 @@ func run_test() -> void:
 	check(carla.npc_name == "Carla", "nombre de Carla")
 	check(carla.global_position.distance_to(Vector3(5, 0, 15)) < 0.5, "Carla colocada en (5, 0, 15)")
 
-	# --- Skins por instancia ---
-	var carla_skins := _skin_paths(carla)
-	var lucia_skins := _skin_paths(lucia)
-	check(not carla_skins.is_empty() and carla_skins.all(func(p): return p == CARLA_SKIN), "mallas de Carla con carla_skin.png: %s" % [carla_skins])
-	check(not lucia_skins.is_empty() and lucia_skins.all(func(p): return p.ends_with("skaterFemaleA.png")), "Lucía conserva su skin: %s" % [lucia_skins])
+	# --- Modelo por instancia (data/characters.json por npc_id) ---
+	var carla_model := _model_info(carla)
+	var lucia_model := _model_info(lucia)
+	check(carla_model[0] == CARLA_MODEL and carla_model[1] > 0, "Carla usa carla.glb: %s" % [carla_model])
+	check(lucia_model[0] == LUCIA_MODEL and lucia_model[1] > 0, "Lucía usa lucia.glb: %s" % [lucia_model])
+	# `skin` (obsoleto) sigue existiendo para que main.tscn cargue, pero no se pinta encima del modelo.
+	check("skin" in carla, "Npc.skin sigue existiendo (obsoleto)")
+	var painted := carla.get_node("Visual/Model").find_children("*", "MeshInstance3D", true, false).filter(
+		func(m): return m.material_override is StandardMaterial3D and m.material_override.albedo_texture == carla.skin)
+	check(carla.skin == null or painted.is_empty(), "la skin obsoleta no se aplica al modelo")
 
 	# --- Horario sin locations: quieta y sin errores ---
 	check(brain.schedule.location_at(18 * 60) == "terraza", "18:00 terraza")
