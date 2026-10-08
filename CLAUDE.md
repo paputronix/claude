@@ -44,7 +44,8 @@ Registrados en `project.godot`, en `scripts/autoload/` (+ `scenes/ui/` para los 
 
 ## Tests
 - `tests/run.sh [patrón]`: Godot 4.3 headless (se descarga solo a `~/.cache`). Debe quedar en verde antes de cualquier PR.
-- Cada test: `extends "res://tests/test_base.gd"` + `func run_test()`. Helpers: `check()`, `autoload()`, `wait_frames()`, `wait_until()`, `press_action()`, `talk_to()`, `add_temp_location()`, `load_main()`.
+- Cada test: `extends "res://tests/test_base.gd"` + `func run_test()`. Helpers: `check()`, `autoload()`, `wait_frames()`, `wait_until()`, `press_action()`, `talk_to()`, `press_option()`, `finish_dialogue()`, `run_clock()`, `add_temp_location()`, `load_main()`.
+- Límite de 120 s por test en `run.sh`: un bucle largo se parte en varios tests (ver `test_hito3_*`).
 - En tests no uses tipos `class_name` del juego (ver `test_base.gd`).
 - No esperes un número fijo de frames cuando dependas de la física: usa `wait_until()` / `talk_to()`.
 - Verificación visual: el proyecto usa el renderer **GL Compatibility** (portátiles modestos, export web). Con Xvfb (`xvfb-run -a godot --path . -s script.gd`) las capturas son fieles al juego real.
@@ -54,19 +55,12 @@ Registrados en `project.godot`, en `scripts/autoload/` (+ `scenes/ui/` para los 
 Rama de integración: `claude/ligar-simulator-prototype-jq95e7`. Cada feature en `claude/ligar-<feature>`, PR contra integración.
 Reglas para cada rama: no tocar `project.godot`; tocar solo tus ficheros (abajo) o usar los contratos de autoload; ampliar contratos solo de forma aditiva y avisándolo; añadir `tests/test_<feature>.gd`.
 
-Ownership Hito 3 · Ola 1:
-| Rama | Ficheros dueños |
-|---|---|
-| wallet-ui | `scripts/ui/clock_hud.gd`, `scenes/ui/clock_hud.tscn`, `scripts/autoload/phone.gd` |
-| dialogue-v2 | `scripts/dialogue_ui.gd`, `data/dialogues/lucia.json` |
-| jobs | `scripts/autoload/job_board.gd`, `scripts/jobs/*`, `data/jobs.json` |
-| map2 | `scenes/world/world.tscn`, `scripts/world/*`, `tests/test_map.gd` |
-| carla | `scripts/npc.gd`, `scenes/npc.tscn`, `scenes/main.tscn`, `data/dialogues/carla.json`, `data/schedules/carla.json` |
+La tabla de ownership se define en cada plan de hito (Ola 0) y se añade aquí mientras dura.
 
 ## Hitos
 1. ✅ Prototipo mínimo: sala, player WASD+ratón, NPC, conversación por proximidad con 3 opciones que mueven la afinidad.
 2. ✅ "Un día en la vida": reloj, móvil, afinidad persistente, [E] Hablar, mapa con zonas, NPC con horario, quedada a hora y lugar (`tests/test_hito2.gd` cubre el bucle completo).
-3. 🚧 "El tiempo es el recurso": repartidor → dinero → invitar en citas; segundo NPC (Carla); dos citas el mismo día con pillada física.
+3. ✅ "El tiempo es el recurso": repartidor → dinero → invitar en citas; segundo NPC (Carla); dos citas el mismo día con pillada física (`tests/test_hito3_*.gd`: día, noche y pillada).
 
 ## Visión a futuro (NO implementar aún)
 - Estatus/ropa, regalos, ramas de relación a largo plazo, fin de día y guardado.

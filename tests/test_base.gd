@@ -92,6 +92,39 @@ func add_temp_location(id: String, position: Vector3, radius := 3.0) -> Node3D:
 	return marker
 
 
+## Pulsa la primera opción del diálogo abierto cuyo texto contenga `text`.
+func press_option(ui: Node, text: String) -> bool:
+	for button in ui.get_node("%OptionsBox").get_children():
+		if text in button.text and not button.disabled:
+			button.pressed.emit()
+			return true
+	return false
+
+
+## Avanza el diálogo abierto (primera opción habilitada) hasta que se cierre.
+func finish_dialogue(ui: Node, max_steps := 20) -> void:
+	for i in max_steps:
+		if not ui.is_active():
+			return
+		for button in ui.get_node("%OptionsBox").get_children():
+			if not button.disabled:
+				button.pressed.emit()
+				break
+		await process_frame
+
+
+## Avanza el reloj `minutes` minutos de juego, `frames_per_minute` physics frames por minuto,
+## parando antes si `stop` se cumple. Devuelve si `stop` se cumplió.
+func run_clock(minutes: int, frames_per_minute: int, stop := Callable()) -> bool:
+	var clock := autoload("GameClock")
+	for i in minutes:
+		await wait_frames(frames_per_minute)
+		clock.advance(1.0)
+		if stop.is_valid() and stop.call():
+			return true
+	return false
+
+
 func load_main() -> Node:
 	var main: Node = load("res://scenes/main.tscn").instantiate()
 	root.add_child(main)
