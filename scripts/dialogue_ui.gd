@@ -42,6 +42,7 @@ func start(npc: Npc) -> void:
 	_set_affinity_text(npc.affinity, 0)
 	_panel.show()
 	conversation_started.emit(npc)
+	EventBus.conversation_started.emit(npc.npc_id)
 	_show_node(data.get("start", ""))
 
 
@@ -62,6 +63,9 @@ func _show_node(node_id) -> void:
 
 
 func _choose(option: Dictionary) -> void:
+	if option.get("action") is Dictionary:
+		EventBus.dialogue_action.emit(_npc.npc_id, option.action)
+
 	var delta := int(option.get("affinity", 0))
 	if delta != 0:
 		_npc.change_affinity(delta)
@@ -85,6 +89,7 @@ func _end() -> void:
 	_clear_options()
 	_panel.hide()
 	conversation_ended.emit(npc)
+	EventBus.conversation_ended.emit(npc.npc_id)
 
 
 func _add_option(text: String, callback: Callable) -> void:

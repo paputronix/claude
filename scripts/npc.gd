@@ -9,6 +9,8 @@ signal affinity_changed(new_value: int, delta: int)
 const MIN_AFFINITY := -100
 const MAX_AFFINITY := 100
 
+## Identificador estable (afinidad, citas, horarios). No cambiar una vez usado.
+@export var npc_id := "lucia"
 @export var npc_name := "Lucía"
 @export_file("*.json") var dialogue_path := "res://data/dialogues/lucia.json"
 @export_range(-100, 100) var affinity := 0

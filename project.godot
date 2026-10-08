@@ -14,6 +14,16 @@ config/name="Ligar Simulator"
 run/main_scene="res://scenes/main.tscn"
 config/features=PackedStringArray("4.3", "Forward Plus")
 
+[autoload]
+
+EventBus="*res://scripts/autoload/event_bus.gd"
+GameClock="*res://scripts/autoload/game_clock.gd"
+RelationshipState="*res://scripts/autoload/relationship_state.gd"
+Locations="*res://scripts/autoload/locations.gd"
+DateScheduler="*res://scripts/autoload/date_scheduler.gd"
+Phone="*res://scenes/ui/phone.tscn"
+ClockHud="*res://scenes/ui/clock_hud.tscn"
+
 [display]
 
 window/size/viewport_width=1280
@@ -39,6 +49,16 @@ move_left={
 move_right={
 "deadzone": 0.5,
 "events": [Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":-1,"window_id":0,"alt_pressed":false,"shift_pressed":false,"ctrl_pressed":false,"meta_pressed":false,"pressed":false,"keycode":0,"physical_keycode":68,"key_label":0,"unicode":100,"location":0,"echo":false,"script":null)
+]
+}
+interact={
+"deadzone": 0.5,
+"events": [Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":-1,"window_id":0,"alt_pressed":false,"shift_pressed":false,"ctrl_pressed":false,"meta_pressed":false,"pressed":false,"keycode":0,"physical_keycode":69,"key_label":0,"unicode":101,"location":0,"echo":false,"script":null)
+]
+}
+phone={
+"deadzone": 0.5,
+"events": [Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":-1,"window_id":0,"alt_pressed":false,"shift_pressed":false,"ctrl_pressed":false,"meta_pressed":false,"pressed":false,"keycode":0,"physical_keycode":4194306,"key_label":0,"unicode":0,"location":0,"echo":false,"script":null)
 ]
 }
 
