@@ -26,6 +26,7 @@ var _toast_title: Label
 var _toast_body: Label
 var _panel: PanelContainer
 var _time_label: Label
+var _money_label: Label
 var _list: VBoxContainer
 var _badge: Label
 var _player: AudioStreamPlayer
@@ -38,7 +39,9 @@ func _ready() -> void:
 	_player.volume_db = -8.0
 	add_child(_player)
 	GameClock.minute_changed.connect(func(_m: int) -> void: _update_time())
+	Wallet.money_changed.connect(func(_v: int, _d: int, _r: String) -> void: _update_money())
 	_update_time()
+	_update_money()
 	_refresh_badge()
 
 
@@ -127,6 +130,11 @@ func _on_toast_done() -> void:
 func _update_time() -> void:
 	if _time_label:
 		_time_label.text = GameClock.format_time()
+
+
+func _update_money() -> void:
+	if _money_label:
+		_money_label.text = "%d €" % Wallet.money
 
 
 func _refresh_badge() -> void:
@@ -247,10 +255,20 @@ func _build_ui() -> void:
 	var pcol := VBoxContainer.new()
 	pcol.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	_panel.add_child(pcol)
+	var bar := HBoxContainer.new()
+	bar.name = "StatusBar"
+	bar.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	pcol.add_child(bar)
 	_time_label = Label.new()
-	_time_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	_time_label.name = "TimeLabel"
+	_time_label.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	_time_label.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	pcol.add_child(_time_label)
+	bar.add_child(_time_label)
+	_money_label = Label.new()
+	_money_label.name = "MoneyLabel"
+	_money_label.add_theme_color_override("font_color", Color(1.0, 0.9, 0.5))
+	_money_label.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	bar.add_child(_money_label)
 	var sep := HSeparator.new()
 	sep.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	pcol.add_child(sep)
