@@ -1,5 +1,6 @@
 extends "res://tests/test_base.gd"
-## Mapa: locations registradas, navegación entre todas, suelo firme, NPC en el bar.
+## Mapa: locations registradas, navegación entre todas, suelo firme, NPC en el bar,
+## y decorado anime (ventanas del ciclo día/noche, rótulos, puerta del bar libre).
 
 const IDS := ["bar", "calle", "casa_lucia", "parque", "terraza", "kiosko", "portal_a", "portal_b", "portal_c", "casa_carla"]
 ## Sitios que deben estar sobre suelo caminable (la casa de Lucía y el bar tienen su propia comprobación).
@@ -71,3 +72,38 @@ func run_test() -> void:
 	check(absf(player.global_position.y) < 0.2, "el jugador no se hunde ni flota (y=%.2f)" % player.global_position.y)
 	check(locations.is_at("bar", player.global_position), "el jugador aparece dentro del bar")
 	check(locations.is_at("bar", npc.global_position), "Lucía está dentro del radio del bar")
+
+	_check_anime_decor(main)
+
+
+## Ciudad con alma de anime: ventanas para el ciclo día/noche, rótulos y puerta despejada.
+func _check_anime_decor(main: Node) -> void:
+	var glass := get_nodes_in_group("window_glass")
+	check(glass.size() >= 80, "hay al menos 80 ventanas en el grupo window_glass (%d)" % glass.size())
+	for g: Node in glass:
+		if not (g is MeshInstance3D):
+			check(false, "window_glass solo contiene MeshInstance3D (%s)" % g.name)
+			break
+
+	var texts: Array[String] = []
+	for label: Node in main.find_children("*", "Label3D", true, false):
+		texts.append((label as Label3D).text)
+	for sign_text: String in ["BAR LUNA", "KIOSKO", "CAFÉ", "FLORISTERÍA", "FARMACIA", "PANADERÍA", "TAPAS", "LIBRERÍA"]:
+		check(texts.has(sign_text), "existe el rótulo %s" % sign_text)
+
+	# Las farolas siguen siendo exactamente las 8 originales (day_night.gd busca LampBulb*).
+	check(main.find_children("LampBulb*", "MeshInstance3D", true, false).size() == 8, "siguen 8 bombillas LampBulb*")
+
+	# La puerta del bar sigue libre de colisión (el jugador y los NPC pasan sin tropezar).
+	var space: PhysicsDirectSpaceState3D = main.get_world_3d().direct_space_state
+	var query := PhysicsShapeQueryParameters3D.new()
+	var box := BoxShape3D.new()
+	box.size = Vector3(2.6, 2.2, 3.0)  # el hueco de la puerta mide 3 m (x de -1.5 a 1.5)
+	query.shape = box
+	query.transform = Transform3D(Basis.IDENTITY, Vector3(0, 1.2, 11.5))
+	query.collision_mask = 1
+	var hits := space.intersect_shape(query, 8)
+	var names: Array[String] = []
+	for hit: Dictionary in hits:
+		names.append(str((hit["collider"] as Node).name))
+	check(hits.is_empty(), "nada colisiona frente a la puerta del bar %s" % [names])
