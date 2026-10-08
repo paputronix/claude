@@ -1,5 +1,5 @@
 {
-  "_doc": "Modelo 3D de cada personaje (VRoid, ver assets/characters/anime/CREDITS.md). Lo lee el código de personajes; main.tscn no cambia.",
+  "_doc": "Modelo 3D de cada personaje (VRoid, ver assets/characters/anime/CREDITS.md). Clave = npc_id (o 'player'); los peatones eligen al azar de 'pedestrians'. 'animations' = AnimationLibrary compartida (idle, walk, run, talk, interact, pickup, sit_*, dance). Lo lee scripts/visual/character_models.gd.",
   "player": "res://assets/characters/anime/player.glb",
   "lucia": "res://assets/characters/anime/lucia.glb",
   "carla": "res://assets/characters/anime/carla.glb",
@@ -8,5 +8,5 @@
     "res://assets/characters/anime/ped_b.glb",
     "res://assets/characters/anime/ped_c.glb"
   ],
-  "animations": "res://assets/characters/anime/anims.glb"
+  "animations": "res://assets/characters/anime/anim_library.res"
 }

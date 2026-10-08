@@ -1,16 +1,12 @@
 extends Node
 ## Crea los peatones de ambiente al arrancar el mundo (lo instancia world.gd).
 ## Cada uno aparece en un location distinto (si hay menos que peatones, se repiten),
-## nunca en `bar` para no caer encima del jugador, con skin, escala y velocidad propias.
+## nunca en `bar` para no caer encima del jugador, con modelo (data/characters.json),
+## escala y velocidad propias. Los modelos se reparten sin repetir hasta agotar la lista.
 
 const PEDESTRIAN := preload("res://scenes/pedestrian.tscn")
 const PedestrianScript := preload("res://scripts/pedestrians/pedestrian.gd")
-const SKINS: Array[Texture2D] = [
-	preload("res://assets/characters/ped_male_green.png"),
-	preload("res://assets/characters/ped_male_yellow.png"),
-	preload("res://assets/characters/ped_female_blue.png"),
-	preload("res://assets/characters/ped_female_green.png"),
-]
+const CharacterModels := preload("res://scripts/visual/character_models.gd")
 const SPAWN_EXCLUDED := ["bar"]
 
 @export var count := 5
@@ -31,11 +27,12 @@ func _spawn() -> void:
 	if ids.is_empty():
 		return
 	ids.shuffle()
-	var skins := SKINS.duplicate()
-	skins.shuffle()
+	var models := CharacterModels.pedestrian_paths()
+	models.shuffle()
 	for i in count:
 		var ped: CharacterBody3D = PEDESTRIAN.instantiate()
-		ped.skin = skins[i % skins.size()]
+		if not models.is_empty():
+			ped.model_path = models[i % models.size()]
 		ped.speed = randf_range(1.8, 2.5)
 		ped.visual_scale = randf_range(0.95, 1.05)
 		ped.name = "Pedestrian%d" % (i + 1)

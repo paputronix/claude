@@ -16,7 +16,8 @@ const WAIT_RANGE := Vector2(3.0, 10.0)
 const STUCK_TIME := 4.0
 const STUCK_PROGRESS := 0.5
 
-@export var skin: Texture2D
+## Modelo glb (lo elige el spawner de data/characters.json). Vacío = uno al azar de la lista.
+@export_file("*.glb") var model_path := ""
 @export var speed := 2.0
 @export var turn_speed := 10.0
 ## Radio máximo (m) alrededor del location donde se elige el punto de destino.
@@ -37,9 +38,6 @@ var _gravity: float = ProjectSettings.get_setting("physics/3d/default_gravity")
 
 
 func _ready() -> void:
-	var model := _visual.get_node_or_null("Model")
-	if skin != null and model != null and model.has_method("set_skin"):
-		model.set_skin(skin)
 	_visual.scale = Vector3.ONE * visual_scale
 	_wait_left = randf_range(0.0, 2.0)  # que no arranquen todos a la vez
 
