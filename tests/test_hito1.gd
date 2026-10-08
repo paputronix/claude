@@ -1,6 +1,6 @@
 extends "res://tests/test_base.gd"
 ## Bucle del Hito 1: moverse, acercarse al NPC, conversar, cambiar afinidad.
-## Si una rama cambia el disparo (p. ej. [E] Hablar), debe adaptar este test.
+## La conversación se dispara con [E] (Interactor).
 
 
 func run_test() -> void:
@@ -17,7 +17,9 @@ func run_test() -> void:
 
 	player.global_position = npc.global_position + Vector3(0, 0, 1.2)
 	await wait_frames(5)
-	check(ui.is_active(), "acercarse al NPC abre la conversación")
+	check(not ui.is_active(), "acercarse sin pulsar E no abre la conversación")
+	await press_action("interact")
+	check(ui.is_active(), "pulsar E cerca del NPC abre la conversación")
 	check(not player.controls_enabled, "controles congelados en conversación")
 
 	var options: Node = ui.get_node("%OptionsBox")

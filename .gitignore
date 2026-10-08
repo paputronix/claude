@@ -1,5 +1,7 @@
 # Godot 4
 .godot/
-*.import
 export_presets.cfg
 *.tmp
+
+# Worktrees de subagentes de Claude Code
+.claude/worktrees/

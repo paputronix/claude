@@ -24,6 +24,7 @@ var _gravity: float = ProjectSettings.get_setting("physics/3d/default_gravity")
 func _ready() -> void:
 	_spring_arm.rotation.x = deg_to_rad(initial_pitch_deg)
 	Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
+	add_child(Interactor.new())
 
 
 func set_controls_enabled(enabled: bool) -> void:
