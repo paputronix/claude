@@ -1,7 +1,7 @@
 class_name Npc
 extends StaticBody3D
 ## NPC con el que se puede hablar. La afinidad vive en `RelationshipState`
-## (por `npc_id`) y pide una conversación cuando el jugador entra en `TalkArea`.
+## (por `npc_id`) y pide una conversación cuando el jugador lo interactúa con [E] (contrato Interactable).
 
 signal conversation_requested(npc: Npc)
 signal affinity_changed(new_value: int, delta: int)
@@ -18,19 +18,16 @@ var affinity: int:
 	get:
 		return RelationshipState.get_affinity(npc_id)
 
-## Se rearma al salir del área, para no relanzar la conversación en bucle.
-var _can_trigger := true
 var _body_material: StandardMaterial3D
 
-@onready var _talk_area: Area3D = $TalkArea
+## TODO: eliminar TalkArea de npc.tscn (sin uso; la conversación se dispara con [E]).
 @onready var _name_label: Label3D = $NameLabel
 @onready var _visual: Node3D = $Visual
 @onready var _body_mesh: MeshInstance3D = $Visual/Body
 
 
 func _ready() -> void:
-	_talk_area.body_entered.connect(_on_talk_area_body_entered)
-	_talk_area.body_exited.connect(_on_talk_area_body_exited)
+	add_to_group("interactable")
 	# Material propio por instancia: si hay varios NPCs, cada uno se tiñe por separado.
 	_body_material = _body_mesh.mesh.material.duplicate()
 	_body_mesh.material_override = _body_material
@@ -42,6 +39,18 @@ func _ready() -> void:
 
 func change_affinity(delta: int) -> void:
 	RelationshipState.change_affinity(npc_id, delta)
+
+
+func get_interaction_prompt() -> String:
+	return "Hablar con %s" % npc_name
+
+
+func can_interact() -> bool:
+	return true
+
+
+func interact(_by: Node) -> void:
+	conversation_requested.emit(self)
 
 
 func face(target: Vector3) -> void:
@@ -75,14 +84,3 @@ func _on_state_affinity_changed(id: String, value: int, delta: int) -> void:
 		return
 	_refresh_visuals()
 	affinity_changed.emit(value, delta)
-
-
-func _on_talk_area_body_entered(body: Node3D) -> void:
-	if body is Player and _can_trigger:
-		_can_trigger = false
-		conversation_requested.emit(self)
-
-
-func _on_talk_area_body_exited(body: Node3D) -> void:
-	if body is Player:
-		_can_trigger = true
